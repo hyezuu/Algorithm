@@ -2,11 +2,11 @@ import java.util.*;
 
 class Solution {
     public int solution(int n) {
-        int sum = 0;
-        String str = String.valueOf(n);
-        for(char c : str.toCharArray()){
-            sum += Character.digit(c, 10);
+        int answer = 0;
+        while(n>0){
+            answer+=n%10;
+            n/=10;
         }
-        return sum;
+        return answer;
     }
 }
