@@ -1,20 +1,19 @@
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.*;
-
 
 class Solution {
     public int[] solution(int[] numbers, String direction) {
-        List<Integer> listNumbers = Arrays.stream(numbers).boxed().collect(Collectors.toList());
+        List<Integer> list = Arrays.stream(numbers).boxed().collect(Collectors.toList());
         
         if(direction.equals("right")){
-            listNumbers.add(0,numbers[numbers.length-1]);
-            listNumbers.remove(numbers.length);
+            list.add(0, list.get(list.size()-1));
+            list.remove(list.size()-1);
         }
         else {
-            listNumbers.remove(0);
-            listNumbers.add(numbers.length-1, numbers[0]);
+            list.add(list.size(), list.get(0));
+            list.remove(0);
         }
-        return listNumbers.stream().mapToInt(Integer::intValue).toArray();
+        
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
 }
