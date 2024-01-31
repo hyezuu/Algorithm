@@ -13,14 +13,12 @@ class Solution {
     
         Map<Double, Integer> map = new HashMap<>();
         
-        for(int i=0; i<sortedAvg.length; i++){
-            
+        for(int i=0; i<sortedAvg.length; i++){          
             if(i!=0 && sortedAvg[sortedAvg.length-i-1] == sortedAvg[sortedAvg.length-i]){
                 map.put(sortedAvg[sortedAvg.length-i-1],map.get(sortedAvg[sortedAvg.length-i]));
             }
             else map.put(sortedAvg[sortedAvg.length-i-1],i+1);
-        }
-          
+        }      
         return Arrays.stream(avg).mapToInt(map::get).toArray();
     }
 }
