@@ -3,9 +3,9 @@ class Solution {
         if(b==1){
             return 1;
         }
-        if(a>b){
-            a= a%b;
-        }
+        // if(a>b){
+        //     a= a%b;
+        // }
         for(int i=a; i>1; i--){
             if(a%i==0){
                 if(b%i==0){
