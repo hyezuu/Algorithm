@@ -1,0 +1,19 @@
+class Solution {
+    public String[] solution(String[] quiz) {
+        for(int i=0; i<quiz.length ; i++){
+            quiz[i] = quiz[i].replaceAll("=\\s","");
+            String[] newQuiz = quiz[i].split(" ");
+            
+            int leftValue = Integer.parseInt(newQuiz[0].trim());
+            String operator = newQuiz[1];
+            int rightValue = Integer.parseInt(newQuiz[2].trim());
+            int answerValue = Integer.parseInt(newQuiz[3].trim());
+            
+            if(operator.equals("+")){
+               quiz[i] = leftValue+rightValue == answerValue ? "O" : "X" ; 
+            }
+            else quiz[i] = leftValue-rightValue == answerValue ? "O" : "X" ;
+        }
+        return quiz;
+    }
+}
