@@ -7,7 +7,7 @@ class Solution {
         int[] answer = new int[num];
         
         for(int i=0; i< num; i++){
-            answer[i] = initnum+i;
+            answer[i] = initnum++;
         }
 
         return answer;
