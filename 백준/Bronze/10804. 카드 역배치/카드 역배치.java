@@ -15,7 +15,6 @@ public class Main {
     public String solution(int[][] nums) {
         StringBuilder sb = new StringBuilder();
         int[] arr = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        int[] answer = new int[20];
         for(int[] num : nums){
            for(int i=0; i<20; i++){
                if(i>=(num[0]-1)&&i<(num[0])+(num[1]-num[0])/2){
