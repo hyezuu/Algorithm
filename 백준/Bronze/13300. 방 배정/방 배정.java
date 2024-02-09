@@ -27,10 +27,15 @@ public class Main {
             int gender = sg[i][0];
             gsc[grade][gender] = gsc[grade][gender]+1;
         }
+//        System.out.println("반애들 출력");
         for(int[] sc : gsc){
-            count += sc[0]/room + sc[0]%room;
-            count += sc[1]/room + sc[1]%room;
+            count += sc[0]/room + (sc[0]%room !=0 ? 1: 0);
+            count += sc[1]/room + (sc[1]%room !=0 ? 1: 0);
+//
+//            System.out.print(sc[0]);
+//            System.out.print(sc[1]+ " ");
         }
+//        System.out.println("출력끝");
         return count+"";
     }
 }
