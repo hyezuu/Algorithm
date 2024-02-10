@@ -28,9 +28,7 @@ public class Main {
             arr[c1[i] - 'a']--;
         }
         for (int num : arr) {
-            if (num != 0) {
-                count += Math.abs(num);
-            }
+            count += Math.abs(num);
         }
         return count + "";
     }
