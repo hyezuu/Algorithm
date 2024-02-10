@@ -5,11 +5,7 @@ import java.io.OutputStreamWriter;
 
 public class Main {
     public String solution(String docs, String word) {
-        int len1 = docs.length();
-        String docs2 = docs.replace(word,"");
-        int len2 = docs2.length();
-        int answer = (len1-len2)/word.length();
-        return answer+"";
+        return (docs.length()-docs.replace(word,"").length())/word.length()+"";
     }
     public static void main(String[] args) throws Exception {
         Main T = new Main();
