@@ -30,8 +30,8 @@ public class Main {
             stack.push(new NGE(i, num));
         }
         for(int a : arr){
-            if(a==0) a=-1;
-            bw.write(a + " ");
+            if(a==0) bw.write("-1 ");
+            else bw.write(a + " ");
         }
         bw.flush();
     }
