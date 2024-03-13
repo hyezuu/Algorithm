@@ -1,22 +1,17 @@
 import java.util.*;
-
 class Solution {
     public int[] solution(int[] arr, int[] delete_list) {
-        Arrays.sort(delete_list);
         List<Integer> list = new ArrayList<>();
-        for(int i=0; i<arr.length; i++){
-            int lt=0, rt= delete_list.length-1;
-            while(lt<=rt){
-                int mid = (lt+rt)/2;
-                if(delete_list[mid]>arr[i]) rt = mid-1;
-                else if(delete_list[mid]<arr[i]) lt= mid+1;
-                else {
-                    arr[i]=0;
-                    break;
-                }
-            }
-            if(arr[i]!=0)list.add(arr[i]);
+        for(int n : arr) {
+            list.add(n);
         }
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        for(int n: delete_list) {
+            list.remove((Integer)n);
+        }
+        int[] answer = new int[list.size()];
+        for(int i=0; i<list.size(); i++){
+            answer[i] = list.get(i);
+        }
+        return answer;
     }
 }
