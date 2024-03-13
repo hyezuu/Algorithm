@@ -3,16 +3,11 @@ import java.util.*;
 class Solution {
     public int[] solution(String myString) {
         int cnt=0;
-        List<Integer> list = new ArrayList<>();
-        for(char c :myString.toCharArray()){
-            if(c=='x'){
-                list.add(cnt);
-                cnt=0;
-            }
-            else cnt++;
+        String[] arr = myString.split("x",myString.length());
+        int[] answer = new int[arr.length];
+        for(int i=0; i<arr.length; i++){
+            answer[i] = arr[i].length();
         }
-        list.add(cnt);
-        
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        return answer;
     }
 }
