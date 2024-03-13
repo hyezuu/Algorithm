@@ -10,6 +10,6 @@ class Solution {
             
             list.add(n);
         }
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        return list.stream().mapToInt(i->i).toArray();
     }
 }
