@@ -1,10 +1,22 @@
 class Solution {
     public int solution(int a, int b, int c) {
-        int fc = a+b+c;
-        int sc = a*a+b*b+c*c;
-        int tc = a*a*a+b*b*b+c*c*c;
-        if(a!=b&&a!=c&&b!=c) return fc;
-        else if(a==b&&b==c) return fc*sc*tc;
-        else return fc*sc;
+        int answer = 1;
+
+        int count = 1;
+        if(a == b || a == c || b == c) {
+            count++;
+        }
+        if(a == b && b == c) {
+            count++;
+        }
+        for(int i = 1; i <= count; i++) {
+            answer *= (pow(a,i)+pow(b,i)+pow(c,i));
+        }
+        return answer;
+    }
+
+    private int pow(int base, int exponent) {
+        if(exponent == 0) return 1;
+        return base * pow(base, exponent-1);
     }
 }
