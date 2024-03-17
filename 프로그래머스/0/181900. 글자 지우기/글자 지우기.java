@@ -2,10 +2,10 @@ import java.util.Arrays;
 
 class Solution {
     public String solution(String myString, int[] indices) {
-        char[] chars = myString.toCharArray();
+        StringBuilder sb = new StringBuilder(myString);
         for(int i : indices){
-            chars[i] = ' ';
+            sb.setCharAt(i,' ');
         }
-        return String.valueOf(chars).replaceAll(" ","");
+        return sb.toString().replaceAll(" ","");
     }
 }
