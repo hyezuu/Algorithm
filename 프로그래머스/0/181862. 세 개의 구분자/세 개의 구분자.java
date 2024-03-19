@@ -2,12 +2,16 @@ import java.util.*;
 
 class Solution {
     public String[] solution(String myStr) {
-        String[] arr = myStr.split("[a-c]");
-        List<String> list = new ArrayList<>();
-        for(String s : arr){
-            if(!s.isEmpty()) list.add(s);
+        StringTokenizer stk = new StringTokenizer(myStr, "abc");
+        int len = stk.countTokens();
+        if(len==0) return new String[] {"EMPTY"};
+        else {
+            String[] answer = new String[len];
+            
+            for(int i=0; i<len; i++){
+                answer[i] = stk.nextToken();
+            }
+            return answer;
         }
-        if(arr.length==0) return new String[] {"EMPTY"};
-        else return list.toArray(new String[0]);
     }
 }
