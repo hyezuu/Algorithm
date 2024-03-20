@@ -2,14 +2,11 @@ import java.util.*;
 
 class Solution {
     public int solution(String[] strArr) {
-        Map<Integer, Integer> map = new HashMap<>();
+        int[] arr = new int[31];
+        int max = 0;
         for(String str : strArr){
-            map.put(str.length(),map.getOrDefault(str.length(),0)+1);
-        }
-        int max = -1;
-        for(int a : map.keySet()){
-            int tmp = map.get(a);
-            if(tmp>max) max = tmp;           
+            arr[str.length()]++;
+            max= Math.max(max, arr[str.length()]);
         }
         return max;
     }
