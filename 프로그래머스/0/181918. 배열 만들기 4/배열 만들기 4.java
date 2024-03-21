@@ -8,6 +8,7 @@ class Solution {
             if(stack.isEmpty()||stack.peek()<arr[i]) stack.push(arr[i++]);
             else stack.pop();
         }
+        
         int[] stk = new int[stack.size()];
         int idx = 0;
         for(int k : stack){
