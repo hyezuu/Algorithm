@@ -6,11 +6,8 @@ class Solution {
         int i = 0;
         
         while(i<arr.length){
-            if(stack.isEmpty()) stack.push(arr[i]);
-            else {
-                if(stack.peek().equals(arr[i]))stack.pop();
-                else stack.push(arr[i]);
-            }
+            if(!stack.isEmpty()&& stack.peek().equals(arr[i])) stack.pop();
+            else stack.push(arr[i]);
             i++;
         }
         if(stack.isEmpty()) return new int[]{-1};
