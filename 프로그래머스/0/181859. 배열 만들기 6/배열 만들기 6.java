@@ -5,9 +5,9 @@ class Solution {
         Stack<Integer> stack = new Stack<>();
         int i = 0;
         
-        while(i<arr.length){
-            if(!stack.isEmpty()&& stack.peek().equals(arr[i])) stack.pop();
-            else stack.push(arr[i]);
+        for(int a : arr){
+            if(!stack.isEmpty()&& stack.peek()==a) stack.pop();
+            else stack.push(a);
             i++;
         }
         if(stack.isEmpty()) return new int[]{-1};
