@@ -1,16 +1,23 @@
+import java.util.Arrays;
+
 class Solution {
     public int[] solution(int[] arr, int[][] queries) {
+
         int[] answer = new int[queries.length];
-        int idx = 0;
-        for(int[] query :queries){
-            int min = 1000001;
-            for(int i = query[0]; i<=query[1]; i++){
-                if(arr[i]>query[2]){
-                    if(arr[i]<min) min = arr[i];
+        Arrays.fill(answer, -1);
+
+        for (int idx = 0; idx < queries.length; idx++) {
+            int[] query = queries[idx];
+            int s = query[0], e = query[1], k = query[2];
+
+            for (int i = s; i <= e; i++) {
+                if (k < arr[i]) {
+                    answer[idx] = answer[idx] == -1 ? arr[i] : Math.min(answer[idx], arr[i]);
                 }
             }
-            answer[idx++] = min==1000001? -1:min;
+
         }
+
         return answer;
     }
 }
