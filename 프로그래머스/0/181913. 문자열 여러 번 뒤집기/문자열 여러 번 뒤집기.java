@@ -1,12 +1,19 @@
 class Solution {
+    static char[] arr;
     public String solution(String my_string, int[][] queries) {
+        arr = my_string.toCharArray();
+        
         for(int[] query : queries){
-            String before = my_string.substring(0,query[0]);
-            String mid = my_string.substring(query[0],query[1]+1);
-            String after = my_string.substring(query[1]+1);
-            
-            my_string = before+ new StringBuilder(mid).reverse().toString() + after;
+            reverse(query[0], query[1]);
         }
-        return my_string;
+        
+        return String.valueOf(arr);
+    }
+    public void reverse(int lt, int rt){
+        while(lt<rt){
+            char tmp = arr[lt];
+            arr[lt++] = arr[rt];
+            arr[rt--] = tmp;
+        }
     }
 }
