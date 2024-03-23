@@ -1,22 +1,15 @@
 import java.util.*;
 class Solution {
     public int solution(int[] rank, boolean[] attendance) {
-        Map<Integer, Integer> map = new HashMap<>();
-        int answer = 0;
+        PriorityQueue<Integer> que = new PriorityQueue<>((a,b)->rank[a]-rank[b]);
         
-        for(int i=0; i<rank.length; i++){
-            map.put(rank[i],i);
+        for(int i=0; i<attendance.length; i++){
+            if(attendance[i]) que.offer(i);
         }
-        Arrays.sort(rank);
-        int cal = 10000;
-        
-        for(int i=0; i<rank.length; i++){
-            int idx = map.get(rank[i]);
-            if(attendance[idx]) {
-                answer += idx*cal;
-                cal/=100;
-            }
-            if(cal<1) break;
+        int cal = 10000, answer = 0;
+        for(int i=0; i<3; i++){
+            answer += que.poll()*cal;
+            cal/=100;
         }
         return answer;
     }
