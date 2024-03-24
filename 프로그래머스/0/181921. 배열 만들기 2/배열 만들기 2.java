@@ -3,11 +3,10 @@ import java.util.*;
 class Solution {
     public int[] solution(int l, int r) {
         ArrayList<Integer> list = new ArrayList<>();
-        for(int i=l; i<=r; i++){
-            String tmp = i+"";
-            if(tmp.replaceAll("[0|5]","").isEmpty()) list.add(i);
+        for(int i=1; i<64; i++){
+            int num = Integer.parseInt(Integer.toBinaryString(i))*5;
+            if(num >=l && num <=r) list.add(num);
         }
-        if(list.isEmpty()) list.add(-1);
-        return list.stream().mapToInt(i->i).toArray();
+        return list.isEmpty()? new int[]{-1} : list.stream().mapToInt(i->i).toArray();
     }
 }
