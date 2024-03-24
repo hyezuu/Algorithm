@@ -4,10 +4,11 @@ class Solution {
         StringBuilder sb = new StringBuilder();
         
         for(int i=0; i<code.length(); i++){
-            if(code.charAt(i)=='1') mode=!mode;
+            char ch = code.charAt(i);
+            if(ch=='1') mode=!mode;
             else{
-                if(mode&&i%2!=0) sb.append(code.charAt(i));
-                else if(!mode&&i%2==0) sb.append(code.charAt(i));
+                int num = mode ? 1 : 0;
+                if(i%2==num) sb.append(ch);
             }
         }
         return sb.length()>0 ?  sb.toString() : "EMPTY" ;
