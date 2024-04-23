@@ -7,11 +7,8 @@ class Solution {
             for (int j = i + 1; j < strings.length; j++) {
                 int tn = strings[j].charAt(n) - 'a';
                 String tmp = strings[i];
-                if (min > tn) {
+                if (min > tn || (min == tn && tmp.compareTo(strings[j])>0)) {
                     min = tn;
-                    strings[i] = strings[j];
-                    strings[j] = tmp;
-                } else if (min == tn && tmp.compareTo(strings[j]) > 0) {
                     strings[i] = strings[j];
                     strings[j] = tmp;
                 }
