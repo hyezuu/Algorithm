@@ -1,18 +1,13 @@
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
     public int solution(int[] people, int limit) {
         Arrays.sort(people);
-        int lt = 0, rt= people.length-1;
-        int cnt = 0;
-        while(lt<=rt){
-            if(people[lt]+people[rt]<=limit){
-                lt++;
-            }
-            rt--;
-            cnt++;
+        int i = 0, j = people.length - 1;
+        for (; i < j; --j) {
+            if (people[i] + people[j] <= limit)
+                ++i;
         }
-        return cnt;    
-        
+        return people.length - i;
     }
 }
