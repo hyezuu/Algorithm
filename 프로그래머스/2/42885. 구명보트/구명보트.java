@@ -6,17 +6,13 @@ class Solution {
         int lt = 0, rt= people.length-1;
         int cnt = 0;
         while(lt<=rt){
-            int tmp = people[lt] + people[rt];
-            if(tmp > limit){
-                cnt++;
-                rt--;
-            }
-            else{
-                cnt++;
-                rt--;
+            if(people[lt]+people[rt]<=limit){
                 lt++;
             }
+            rt--;
+            cnt++;
         }
-        return cnt;
+        return cnt;    
+        
     }
 }
