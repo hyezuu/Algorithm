@@ -2,8 +2,8 @@ import java.util.*;
 
 class Solution {
     public int solution(String s) {
+        StringBuilder sb = new StringBuilder(s);
         int answer = 0;
-        int cnt = 0;
         Map<Character, Character> map = new HashMap<>();
 
         map.put('(', ')');
@@ -11,16 +11,10 @@ class Solution {
         map.put('[', ']');
 
 
-        for (char a : s.toCharArray()) {
-            if (map.containsKey(a)) cnt++;
-        }
-        if (s.length() != cnt * 2) return 0;
-
         for (int i = 0; i < s.length(); i++) {
-            char tmp = s.charAt(0);
             Stack<Character> stack = new Stack<>();
             boolean chk = true;
-            for (char a : s.toCharArray()) {
+            for (char a : sb.toString().toCharArray()) {
                 if (map.containsKey(a)) stack.push(a);
                 else if (!stack.isEmpty() && map.get(stack.peek()) == a) {
                     stack.pop();
@@ -31,7 +25,9 @@ class Solution {
                 }
             }
             if (chk&&stack.isEmpty()) answer++;
-            s = s.substring(1) + tmp;
+            
+            sb.append(sb.charAt(0));
+            sb.deleteCharAt(0);
         }
         return answer;
 
