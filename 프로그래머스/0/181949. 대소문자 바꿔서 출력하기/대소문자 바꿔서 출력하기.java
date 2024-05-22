@@ -1,19 +1,18 @@
 import java.util.Scanner;
 
 public class Solution {
-    public String solution(String a){
-        char[] chars = a.toCharArray();
-        for(int i=0; i<chars.length; i++){
-            if(Character.isUpperCase(chars[i])) chars[i] = Character.toLowerCase(chars[i]);
-            else chars[i] = Character.toUpperCase(chars[i]);
+    public String solution(String str){
+        StringBuilder sb = new StringBuilder();
+        for(char c: str.toCharArray()){
+            sb.append(Character.isUpperCase(c) ? Character.toLowerCase(c) : Character.toUpperCase(c));
         }
-        return String.valueOf(chars);
+        return sb.toString();
     }
     public static void main(String[] args) {
         Solution T = new Solution();
         Scanner sc = new Scanner(System.in);
-        String a = sc.next();
+        String str = sc.next();
         
-        System.out.println(T.solution(a));
+        System.out.println(T.solution(str));
     }
 }
