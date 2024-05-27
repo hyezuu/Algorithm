@@ -1,16 +1,14 @@
 class Solution {
-    public String solution(String code) {
-        boolean mode = false;
+    public String solution(String code){
         StringBuilder sb = new StringBuilder();
-        
+        int mode = 0;
         for(int i=0; i<code.length(); i++){
-            char ch = code.charAt(i);
-            if(ch=='1') mode=!mode;
-            else{
-                int num = mode ? 1 : 0;
-                if(i%2==num) sb.append(ch);
-            }
+            char tmp = code.charAt(i);
+            if(tmp=='1'){
+                mode = mode == 0 ? 1 : 0;               
+            }            
+            else if(i%2==mode) sb.append(tmp);           
         }
-        return sb.length()>0 ?  sb.toString() : "EMPTY" ;
+        return sb.length()==0 ? "EMPTY" : sb.toString();
     }
 }
