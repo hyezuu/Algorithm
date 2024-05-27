@@ -6,6 +6,6 @@ class Solution {
             sum+=a;
             multi*=a;
         }
-        return Math.pow(sum,2)>multi?1:0;
+        return multi< Math.pow(sum,2)?1:0;
     }
 }
