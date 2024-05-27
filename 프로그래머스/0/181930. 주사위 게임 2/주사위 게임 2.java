@@ -10,13 +10,8 @@ class Solution {
             count++;
         }
         for(int i = 1; i <= count; i++) {
-            answer *= (pow(a,i)+pow(b,i)+pow(c,i));
+            answer *= (Math.pow(a,i)+Math.pow(b,i)+Math.pow(c,i));
         }
         return answer;
-    }
-
-    private int pow(int base, int exponent) {
-        if(exponent == 0) return 1;
-        return base * pow(base, exponent-1);
     }
 }
