@@ -3,12 +3,13 @@ class Solution {
         int len = num_list.length;
         int last;
         int[] answer = new int[len+1];
-        if(num_list[len-1]>num_list[len-2]){
-            last = num_list[len-1]-num_list[len-2];
-        }
-        else last = num_list[len-1]*2;
+        
         System.arraycopy(num_list,0,answer,0,len);
-        answer[len] = last;
+        
+        int case1 = num_list[len-1]-num_list[len-2];
+        int case2 = num_list[len-1]*2;
+        
+        answer[len] = case1> 0 ? case1 : case2;
         
         return answer;
     }
