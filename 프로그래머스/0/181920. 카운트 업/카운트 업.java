@@ -4,7 +4,7 @@ class Solution {
         int[] answer = new int[len];
         
         for(int i=0; i<len; i++){
-            answer[i] = start_num+i;
+            answer[i] = start_num++;
         }
         
         return answer;
