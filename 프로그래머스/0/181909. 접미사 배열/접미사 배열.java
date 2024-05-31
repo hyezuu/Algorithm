@@ -2,11 +2,24 @@ import java.util.*;
 
 class Solution {
     public String[] solution(String my_string) {
-        String[] answer = new String[my_string.length()];
+        List<String> list = new ArrayList<>();
+        
         for(int i=0; i<my_string.length(); i++){
-            answer[i]=my_string.substring(i,my_string.length());
+            list.add(my_string.substring(i));
         }
-        Arrays.sort(answer);
-        return answer;
+        Collections.sort(list);
+        
+        return list.stream().toArray(String[]::new);
+        
+        
+        
+        
+        
+        // String[] answer = new String[my_string.length()];
+        // for(int i=0; i<my_string.length(); i++){
+        //     answer[i]=my_string.substring(i,my_string.length());
+        // }
+        // Arrays.sort(answer);
+        // return answer;
     }
 }
