@@ -19,12 +19,11 @@ class Main {
             }
         }
 
-        System.out.println(T.solution(n, m, board));
-
+        System.out.print(T.print(T.solution(n, m, board)));
     }
 
-    public String solution(int n, int m, int[][] board) {
-        Queue<Pair> q = new LinkedList<>();
+    public int[] solution(int n, int m, int[][] board) {
+        Queue<int[]> q = new LinkedList<>();
         boolean[][] visited = new boolean[n][m];
         int[] dx = {1, 0, -1, 0};
         int[] dy = {0, 1, 0, -1};
@@ -35,37 +34,32 @@ class Main {
             for (int j = 0; j < m; j++) {
                 if (board[i][j] == 0 || visited[i][j]) continue;
                 num++;
-                q.offer(new Pair(i, j)); // 시작점만 넣나
+                q.offer(new int[]{i,j}); // 시작점만 넣나
                 visited[i][j] = true;
                 int area = 0;
                 while (!q.isEmpty()) {
                     area++;
-                    Pair tmp = q.poll();
+                    int[] tmp = q.poll();
 
                     for (int k = 0; k < 4; k++) {
-                        int nx = tmp.x + dx[k];
-                        int ny = tmp.y + dy[k];
+                        int nx = tmp[0] + dx[k];
+                        int ny = tmp[1] + dy[k];
                         if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
                         if (visited[nx][ny] || board[nx][ny] == 0) continue;
                         visited[nx][ny] = true;
-                        q.offer(new Pair(nx, ny));
+                        q.offer(new int[]{nx, ny});
                     }
                 }
                 max = Math.max(max, area);
-
             }
         }
-
-        return num+ "\n" + max;
+        return new int[]{num, max};
     }
-
-    public class Pair {
-        int x;
-        int y;
-
-        public Pair(int x, int y) {
-            this.x = x;
-            this.y = y;
+    public String print(int[] arr){
+        StringBuilder sb = new StringBuilder();
+        for(int i : arr){
+            sb.append(i).append("\n");
         }
+        return sb.toString().trim();
     }
 }
