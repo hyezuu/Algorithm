@@ -3,9 +3,7 @@ class Solution {
         int[] answer = new int[start-end+1];
         int i=0;
         while(start>=end){
-            answer[i]=start;
-            start--;
-            i++;
+            answer[i++]=start--;
         }
         
         return answer;
