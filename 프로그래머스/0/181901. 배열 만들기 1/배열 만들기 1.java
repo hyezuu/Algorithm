@@ -1,10 +1,10 @@
 class Solution {
     public int[] solution(int n, int k) {
-        int i=1, m=1;
+        int idx = 0;
         int[] answer = new int[n/k];
-        while(i*k<=n){
-            answer[i-1]=i*k;
-            i++;
+        
+        for(int i= Math.min(n,k); i<=n; i+=k){
+            answer[idx++] = i;
         }
         return answer;
     }
