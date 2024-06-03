@@ -6,6 +6,6 @@ class Solution {
         for(int i : indices){
             sb.setCharAt(i,' ');
         }
-        return sb.toString().replaceAll(" ","");
+        return sb.toString().replace(" ","");
     }
 }
