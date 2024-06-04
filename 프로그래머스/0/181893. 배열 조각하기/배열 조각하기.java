@@ -10,25 +10,10 @@ class Solution {
             }
             else start += query[i];
         }
+        int len = end-start+1;
+        int[] answer = new int[len];
         
-        int[] answer = new int[end-start+1];
-        
-        System.arraycopy(arr, start, answer, 0, end-start+1);
+        System.arraycopy(arr, start, answer, 0, len);
         return answer;
-//         int start = 0, end = arr.length-1;
-        
-//         for(int i=0; i<query.length; i++){
-//             if(i%2==0){
-//                 end = start + query[i];
-//             }
-//             else start += query[i];
-//         }
-//         int[] answer = new int[end-start+1];
-        
-//         for(int i=start,j=0; i<=end; i++){
-//             answer[j++] = arr[i];
-//         }
-        
-//         return answer;
     }
 }
