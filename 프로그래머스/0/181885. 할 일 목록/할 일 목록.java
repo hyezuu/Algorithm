@@ -2,11 +2,27 @@ import java.util.*;
 
 class Solution {
     public String[] solution(String[] todo_list, boolean[] finished) {
-        StringBuilder sb = new StringBuilder();
-        for(int i=0; i<todo_list.length; i++){
-            sb.append(finished[i]?"":todo_list[i]+",");
+        List<String> list = new ArrayList<>();
+        
+        for(int i=0; i<finished.length; i++){
+            if(!finished[i]) list.add(todo_list[i]);
         }
-            
-        return sb.toString().split(",");
+        
+        return list.toArray(new String[0]);
+        
+        
+        
+        
+        
+        
+        
+        
+        // List<String> list = new ArrayList<>();
+        // for(int i=0; i<todo_list.length; i++){
+        //     if(!finished[i]){
+        //         list.add(todo_list[i]);
+        //     }
+        // }           
+        // return list.toArray(new String[0]);
     }
 }
