@@ -21,7 +21,7 @@ class Main {
         Arrays.fill(distance, -1);
         distance[n] = 0;
         q.offer(n);
-        while (!q.isEmpty()) {
+        while (distance[k]==-1) {
             int cur = q.poll();
             int[] next = {cur+1, cur-1, cur*2};
             for(int a : next){
