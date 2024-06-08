@@ -1,16 +1,23 @@
 class Solution {
     public int solution(int[] num_list) {
-        int answer = 1;
-        if(num_list.length>=11){
-            answer = 0;
-            for(int a : num_list){
-                answer+=a;
-            }
+        int len = num_list.length;
+        
+        return len>=11 ? sum(num_list) : multiple(num_list);
+    }
+    
+    public int multiple(int[] num_list){
+        int multi = 1;
+        for(int num : num_list){
+            multi*=num;
         }
-        else 
-            for(int a : num_list){
-                answer*=a;
-            }
-        return answer;
+        return multi;
+    }
+    
+    public int sum(int[] num_list){
+        int sum = 0;
+        for(int num : num_list){
+            sum+=num;
+        }
+        return sum;
     }
 }
