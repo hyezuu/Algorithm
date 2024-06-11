@@ -1,10 +1,9 @@
 class Solution {
     public int solution(String myString, String pat) {
-        int idx =0 , cnt = 0;
+        int cnt = 0;
         while(myString.contains(pat)){
+            myString = myString.substring(myString.indexOf(pat)+1);
             cnt++;
-            idx = myString.indexOf(pat);
-            myString = myString.substring(idx+1);
         }
         return cnt;
     }
