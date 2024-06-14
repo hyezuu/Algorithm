@@ -5,7 +5,11 @@ class Solution {
         int[] arr = new int[31];
         int max = 0;
         for(String str : strArr){
-            max= Math.max(max, ++arr[str.length()]);
+            arr[str.length()]++;
+        }
+        
+        for(int len : arr){
+            max = Math.max(max, len);
         }
         return max;
     }
