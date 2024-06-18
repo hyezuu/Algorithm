@@ -2,16 +2,12 @@ class Solution {
     public int solution(int[] date1, int[] date2) {  
         boolean flag = false;
         for(int i=0; i<3; i++){
-            if(date2[i]>date1[i]){
-                return 1;
-            }
-            else if(date1[i]>date2[i]) return 0;
-            else continue;
+            if(date1[i]==date2[i]) continue;
+            
+            return date2[i]>date1[i] ? 1 : 0;
         }
         
-        return 0;
-        
-        
+        return 0; 
         
 //         int total1 = 0;
 //         int total2 = 0;
