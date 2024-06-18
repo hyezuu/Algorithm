@@ -1,12 +1,26 @@
 class Solution {
-    public int solution(int[] date1, int[] date2) {
-        return getTotalDate(date1)<getTotalDate(date2)? 1:0;
-    }
-    public int getTotalDate(int[] date){
-        int year = date[0];
-        int month = date[1];
-        int day = date[2];
+    public int solution(int[] date1, int[] date2) {  
+        boolean flag = false;
+        for(int i=0; i<3; i++){
+            if(date2[i]>date1[i]){
+                return 1;
+            }
+            else if(date1[i]>date2[i]) return 0;
+            else continue;
+        }
         
-        return year*360+month*30+day*1;
+        return 0;
+        
+        
+        
+//         int total1 = 0;
+//         int total2 = 0;
+//         int[] day = {360, 30, 1};
+        
+//         for(int i=0; i<3; i++){
+//             total1+=date1[i]*day[i];
+//             total2+=date2[i]*day[i];
+//         }
+//         return total1<total2 ? 1:0;
     }
 }
