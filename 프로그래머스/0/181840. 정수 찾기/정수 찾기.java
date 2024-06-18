@@ -2,7 +2,6 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] num_list, int n) {
-        Arrays.sort(num_list);
         int lt= 0;
         int rt = num_list.length-1;
         while(lt<=rt){
