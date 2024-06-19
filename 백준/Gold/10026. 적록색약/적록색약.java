@@ -25,6 +25,7 @@ class Main {
     public String solution(int n, char[][] graph) {
         boolean[][] visited = new boolean[n][n];
         Queue<int[]> q = new LinkedList<>();
+        Queue<int[]> q2 = new LinkedList<>();
         q.offer(new int[]{0, 0});
         visited[0][0] = true;
         int cnt = 1;
@@ -51,27 +52,21 @@ class Main {
                         q.offer(new int[]{nx, ny});
                         visited[nx][ny] = true;
                     }
+                    else q2.offer(new int[]{nx, ny});
+                } else {
+                    q2.offer(new int[]{nx, ny});
                 }
 
             }
             if (q.isEmpty()) {
-                outer : for (int i = 0; i < n; i++) {
-                    for (int j = 0; j < n; j++) {
-                        if (!visited[i][j]) {
-                            q.offer(new int[]{i, j});
-                            visited[i][j] = true;
-                            cnt++;
-                            break outer;
-                        }
+                while (!q2.isEmpty()) {
+                    int[] pos = q2.poll();
+                    if(!visited[pos[0]][pos[1]]) {
+                        q.offer(new int[]{pos[0], pos[1]});
+                        visited[pos[0]][pos[1]] = true;
+                        cnt++;
+                        break;
                     }
-//                    int nx = tmp[0] + dx[i];
-//                    int ny = tmp[1] + dy[i];
-//
-//                    if (nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-//                    if (visited[nx][ny]) continue;
-//                    q.offer(new int[]{nx, ny});
-//                    cnt++;
-//                    visited[nx][ny] = true;
                 }
             }
             if (q.isEmpty() && !flag) {
