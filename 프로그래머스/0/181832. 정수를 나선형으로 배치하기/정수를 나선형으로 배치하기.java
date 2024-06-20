@@ -4,24 +4,23 @@ class Solution {
         int[] dy = {1, 0, -1, 0};
         
         int[][] answer = new int[n][n];
-        int nx = 0;
-        int ny = 0;
+        int x = 0;
+        int y = 0;
         int idx = 0;
-        int posIdx = 0;
         for(int i=1; i<=n*n; i++){
-            answer[nx][ny] = i;
-            int tmpX = nx + dx[idx%4];
-            int tmpY = ny + dy[idx%4];
+            answer[x][y] = i;
+            int nx = x + dx[idx%4];
+            int ny = y + dy[idx%4];
             
-            if(tmpX < 0 || tmpX >= n || tmpY < 0 || tmpY >= n || answer[tmpX][tmpY] != 0){
+            if(nx < 0 || nx >= n || ny < 0 || ny >= n || answer[nx][ny] != 0){
                 idx++;
-                nx+= dx[idx%4];
-                ny+= dy[idx%4];
+                x += dx[idx%4];
+                y += dy[idx%4];
             }
             
             else {
-                nx = tmpX;
-                ny = tmpY;
+                x = nx;
+                y = ny;
             }
             
         }
