@@ -10,20 +10,30 @@ class Main {
         Main main = new Main();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int a = Integer.parseInt(br.readLine());
-        System.out.print(main.solution(a));
+//        System.out.print(main.solution(a));
+        System.out.print(main.solution(a, 0));
         br.close();
     }
 
-    public int solution(int a) {
-        int[] arr = new int[a + 1];
-
-        for(int i=2; i<=a; i++){
-            arr[i] = arr[i-1] + 1;
-            if(i%2==0) arr[i] = Math.min(arr[i], arr[i/2]+1);
-            if(i%3==0) arr[i] = Math.min(arr[i], arr[i/3]+1);
+    public int solution(int n, int count) {
+        if(n<2){
+            return count;
         }
-        return arr[a];
+        return Math.min(solution(n/2, count+1+(n%2)), solution(n/3, count+1+(n%3)));
+    }
 
+//    public int solution(int a) {
+//        int[] arr = new int[a + 1];
+//
+//        for (int i = 2; i <= a; i++) {
+//            arr[i] = arr[i - 1] + 1;
+//            if (i % 2 == 0) arr[i] = Math.min(arr[i], arr[i / 2] + 1);
+//            if (i % 3 == 0) arr[i] = Math.min(arr[i], arr[i / 3] + 1);
+//        }
+//        return arr[a];
+//    }
+    //BFS풀이
+//        public int solution(int a) {
 //        Queue<Integer> q = new LinkedList<>();
 //        int[] visited = new int[a + 1];
 //        q.offer(1);
@@ -40,5 +50,5 @@ class Main {
 //            }
 //        }
 //        return visited[a];
-    }
+//  }
 }
