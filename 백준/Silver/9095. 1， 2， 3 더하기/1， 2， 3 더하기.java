@@ -22,31 +22,47 @@ class Main {
         br.close();
     }
 
-    public String solution(int[] nums) {
-        Stack<Integer> stack = new Stack<>();
+    public String solution(int[] arr) {
         StringBuilder sb = new StringBuilder();
-        int[] arr = {1, 2, 3};
-
-        for (int n : nums) {
-            int cnt = 0;
-            stack.push(1);
-            stack.push(2);
-            stack.push(3);
-
-            while (!stack.isEmpty()) {
-                int tmp = stack.pop();
-                if (tmp > n) continue;
-                if (tmp == n) {
-                    cnt++;
-                    continue;
-                }
-
-                for (int a : arr) {
-                    stack.push(tmp + a);
-                }
+        for(int n : arr){
+            int[] dp = new int[n+1];
+            dp[0] = 1;
+            //dp[i] 는 i를 1,2,3의 합으로 나타내는 경우의 수
+            //dp[4] = dp[1]+dp[2]+dp[3];
+            for(int i=1; i<=n; i++){
+                dp[i] += dp[i-1]; //1을 1,2,3으로 나타내는 경우의 수
+                if(i>=2) dp[i] += dp[i-2]; //2를 1,2,3의 합으로 나타내는 경우의 수
+                if(i>=3) dp[i] += dp[i-3]; //3을 1,2,3의 합으로 나타내는 경우의 수
             }
-            sb.append(cnt).append("\n");
+            sb.append(dp[n]).append("\n");
         }
         return sb.toString();
     }
+//    public String solution(int[] nums) {
+//        Stack<Integer> stack = new Stack<>();
+//        StringBuilder sb = new StringBuilder();
+//        int[] arr = {1, 2, 3};
+//
+//        for (int n : nums) {
+//            int cnt = 0;
+//            stack.push(1);
+//            stack.push(2);
+//            stack.push(3);
+//
+//            while (!stack.isEmpty()) {
+//                int tmp = stack.pop();
+//                if (tmp > n) continue;
+//                if (tmp == n) {
+//                    cnt++;
+//                    continue;
+//                }
+//
+//                for (int a : arr) {
+//                    stack.push(tmp + a);
+//                }
+//            }
+//            sb.append(cnt).append("\n");
+//        }
+//        return sb.toString();
+//    }
 }
