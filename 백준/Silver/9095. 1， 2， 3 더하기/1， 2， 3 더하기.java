@@ -21,23 +21,37 @@ class Main {
         System.out.print(main.solution(arr));
         br.close();
     }
-
+//dp풀이 2
     public String solution(int[] arr) {
         StringBuilder sb = new StringBuilder();
+        int[] dp = new int[12];
         for(int n : arr){
-            int[] dp = new int[n+1];
-            dp[0] = 1;
-            //dp[i] 는 i를 1,2,3의 합으로 나타내는 경우의 수
-            //dp[4] = dp[1]+dp[2]+dp[3];
-            for(int i=1; i<=n; i++){
-                dp[i] += dp[i-1]; //1을 1,2,3으로 나타내는 경우의 수
-                if(i>=2) dp[i] += dp[i-2]; //2를 1,2,3의 합으로 나타내는 경우의 수
-                if(i>=3) dp[i] += dp[i-3]; //3을 1,2,3의 합으로 나타내는 경우의 수
+            dp[1] = 1; dp[2] = 2; dp[3] = 4;
+            for(int i=4; i<=n; i++){
+                dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
             }
             sb.append(dp[n]).append("\n");
         }
         return sb.toString();
     }
+//dp풀이 1
+//    public String solution(int[] arr) {
+//        StringBuilder sb = new StringBuilder();
+//        for(int n : arr){
+//            int[] dp = new int[n+1];
+//            dp[0] = 1;
+//            //dp[i] 는 i를 1,2,3의 합으로 나타내는 경우의 수
+//            //dp[4] = dp[1]+dp[2]+dp[3];
+//            for(int i=1; i<=n; i++){
+//                dp[i] += dp[i-1]; //1을 1,2,3으로 나타내는 경우의 수
+//                if(i>=2) dp[i] += dp[i-2]; //2를 1,2,3의 합으로 나타내는 경우의 수
+//                if(i>=3) dp[i] += dp[i-3]; //3을 1,2,3의 합으로 나타내는 경우의 수
+//            }
+//            sb.append(dp[n]).append("\n");
+//        }
+//        return sb.toString();
+//    }
+//ㅇ이건무슨 풀이??
 //    public String solution(int[] nums) {
 //        Stack<Integer> stack = new Stack<>();
 //        StringBuilder sb = new StringBuilder();
