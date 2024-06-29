@@ -35,5 +35,6 @@ public class Main {
             stack.push(new Tower(i+1, height));
         }
         bw.flush();
+        bw.close();
     }
 }
