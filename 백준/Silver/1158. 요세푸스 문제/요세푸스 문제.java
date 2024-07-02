@@ -1,43 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main {
     public static void main(String[] args) throws IOException {
-        Main main = new Main();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n, k;
-        StringTokenizer stk = new StringTokenizer(br.readLine());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-        n = Integer.parseInt(stk.nextToken());
-        k = Integer.parseInt(stk.nextToken());
+        bw.write(solution(n,k));
 
-        System.out.println(main.solution(n,k));
+        bw.flush();
+        bw.close();
+        br.close();
     }
 
-    public String solution(int n, int k) {
+    public static String solution(int n, int k) {
+        Queue<Integer> q = new LinkedList<>();
         StringBuilder sb = new StringBuilder();
         sb.append("<");
-        Queue<Integer> q = new LinkedList<>();
         int cnt = 1;
-
         for(int i=1; i<=n; i++) {
             q.offer(i);
         }
 
-        while (!q.isEmpty()){
-            if(cnt==k) {
+        while (!q.isEmpty()) {
+            if(cnt == k) {
                 sb.append(q.poll()).append(", ");
-                cnt = 1;
+                cnt = 0;
             }
-            else {
-                q.offer(q.poll());
-                cnt++;
-            }
+            else q.offer(q.poll());
+            cnt++;
         }
-        return sb.substring(0, sb.length()-2)+">";
+
+        return sb.replace(sb.length()-2,sb.length()-1,">").toString();
     }
 }
+
+
