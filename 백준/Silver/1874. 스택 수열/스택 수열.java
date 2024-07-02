@@ -1,40 +1,40 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.*;
 
-public class Main {
-    public String solution(int n, int[] arr) {
-        StringBuilder sb = new StringBuilder();
-        Stack<Integer> stack = new Stack<>();
-        Stack<Integer> answer = new Stack<>();
-        int lt=0;
-        for(int i=1; i<=n; i++){
-            stack.push(i);
-            sb.append("+").append("\n");
+class Main {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            int n = Integer.parseInt(br.readLine());
+            int[] arr = new int[n];
 
-            while (!stack.isEmpty()&&stack.peek()==arr[lt]){
-                answer.push(stack.pop());
-//                System.out.print(answer.peek()+" ");
+            for (int i = 0; i < n; i++) {
+                arr[i] = Integer.parseInt(br.readLine());
+            }
+
+            System.out.print(solution(n, arr));
+        } catch (IOException e) {
+        }
+    }
+
+    public static String solution(int n, int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        int idx = 1;
+        for(int num : arr){
+            while(stack.isEmpty() || idx <= num){
+                stack.push(idx++);
+                sb.append("+").append("\n");
+            }
+            if(stack.peek() == num){
+                stack.pop();
                 sb.append("-").append("\n");
-                lt++;
+            }
+            if(!stack.isEmpty() && stack.peek() > num){
+                return "NO";
             }
         }
-
-        return answer.size()!= arr.length ? "NO" : sb.toString();
-    }
-
-    public static void main(String[] args) throws Exception {
-        Main T = new Main();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
-        for(int i=0; i<n; i++){
-            arr[i] = Integer.parseInt(br.readLine());
-        }
-        bw.write(T.solution(n, arr));
-        bw.flush();
+        return sb.toString();
     }
 }
+
+
