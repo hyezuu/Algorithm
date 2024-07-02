@@ -29,9 +29,7 @@ class Main {
                 stack.pop();
                 sb.append("-").append("\n");
             }
-            if(!stack.isEmpty() && stack.peek() > num){
-                return "NO";
-            }
+            else return "NO";
         }
         return sb.toString();
     }
