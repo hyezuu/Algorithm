@@ -2,18 +2,18 @@ import java.io.*;
 import java.util.*;
 
 class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args){
 
-        int k = Integer.parseInt(br.readLine());
-        int[] arr = new int[k];
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
+            int k = Integer.parseInt(br.readLine());
+            int[] arr = new int[k];
 
-        for(int i=0; i<k; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-        }
+            for(int i=0; i<k; i++) {
+                arr[i] = Integer.parseInt(br.readLine());
+            }
 
-        System.out.print(solution(arr));
-        br.close();
+            System.out.print(solution(arr));
+        } catch (IOException e){}
     }
 
     public static int solution(int[] arr) {
@@ -34,3 +34,5 @@ class Main {
         return sum;
     }
 }
+
+
