@@ -1,40 +1,46 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder answer = new StringBuilder();
+        int T = Integer.parseInt(br.readLine());
 
-        int n = Integer.parseInt(br.readLine());
+        for (int test_case = 0; test_case < T; test_case++) {
+            String s = br.readLine();
+            LinkedList<Character> password = new LinkedList<>();
+            ListIterator<Character> iter = password.listIterator();
 
-        for (int i = 0; i < n; i++) {
-            String str = br.readLine();
-            Stack<Character> stackL = new Stack<>();
-            Stack<Character> stackR = new Stack<>();
-            for (char c : str.toCharArray()) {
-                if (Character.isDigit(c) || Character.isAlphabetic(c)) {
-                    stackL.push(c);
+            for (int j = 0; j < s.length(); j++) {
+                char c = s.charAt(j);
+                switch (c) {
+                    case '<':
+                        if (iter.hasPrevious()) iter.previous();
+                        break;
+                    case '>':
+                        if (iter.hasNext()) iter.next();
+                        break;
+                    case '-':
+                        if (iter.hasPrevious()) {
+                            iter.previous();
+                            iter.remove();
+                        }
+                        break;
+                    default:
+                        iter.add(c);
+                        break;
                 }
-                if (!stackL.isEmpty() && c == '<') stackR.push(stackL.pop());
-                else if (!stackR.isEmpty() && c == '>') stackL.push(stackR.pop());
-                else if (!stackL.isEmpty() && c == '-') stackL.pop();
             }
-            while (!stackR.isEmpty()){
-                stackL.push(stackR.pop());
-            }
-            for(char c : stackL){
-                answer.append(c);
-            }
-            answer.append("\n");
+
+            StringBuilder sb = new StringBuilder();
+            for (char x : password) sb.append(x);
+            bw.write(sb.toString());
+            bw.newLine();
         }
-        bw.write(answer.substring(0,answer.length()));
+
         bw.flush();
+        bw.close();
+        br.close();
     }
 }
