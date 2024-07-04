@@ -6,7 +6,7 @@ import java.util.Stack;
 class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(solution(br.readLine()));
+        System.out.print(solution(br.readLine()));
         br.close();
     }
 
@@ -17,15 +17,10 @@ class Main {
             char c = input.charAt(i);
             if(c == '(') {
                 stack.push(c);
+                continue;
             }
-            else if(input.charAt(i-1) == '(') {
-                stack.pop();
-                cnt+=stack.size();
-            }
-            else {
-                stack.pop();
-                cnt++;
-            }
+            stack.pop();
+            cnt+= input.charAt(i-1) == '(' ? stack.size() : 1;
         }
         return cnt;
     }
