@@ -8,13 +8,13 @@ class Main {
 
         int T = Integer.parseInt(br.readLine());
 
-        for(int i = 0; i < T; i++) {
+        for (int i = 0; i < T; i++) {
             String p = br.readLine();
             int n = Integer.parseInt(br.readLine());
             int[] arr = new int[n];
             String nums = br.readLine();
-            StringTokenizer st = new StringTokenizer(nums.substring(1,nums.length()-1),",");
-            for(int j = 0; j < n; j++) {
+            StringTokenizer st = new StringTokenizer(nums.substring(1, nums.length() - 1), ",");
+            for (int j = 0; j < n; j++) {
                 arr[j] = Integer.parseInt(st.nextToken());
             }
 
@@ -28,31 +28,32 @@ class Main {
     }
 
     private static String solution(String p, int[] arr) {
+        Deque<Integer> deque = new LinkedList<>();
         boolean rev = false;
 
-        Deque<Integer> deque = new LinkedList<>();
-        for(int a : arr){
+        for (int a : arr) {
             deque.addLast(a);
         }
 
-        for(char a : p.toCharArray()){
-            if(a=='R'){
+        for (char a : p.toCharArray()) {
+            if (a == 'R') {
                 rev = !rev;
-            }
-            else if(deque.isEmpty()){
+            } else if (deque.isEmpty()) {
                 return "error";
+            } else if (rev) {
+                deque.pollLast();
+            } else {
+                deque.pollFirst();
             }
-            else if(rev) deque.pollLast();
-            else deque.pollFirst();
         }
 
         StringBuilder sb = new StringBuilder();
 
-        while (!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             sb.append(rev ? deque.pollLast() : deque.pollFirst()).append(',');
         }
-        if(sb.length() > 0) sb.deleteCharAt(sb.length()-1);
+        if (sb.length() > 0) sb.deleteCharAt(sb.length() - 1);
 
-        return sb.insert(0,'[').append(']').toString();
+        return sb.insert(0, '[').append(']').toString();
     }
 }
