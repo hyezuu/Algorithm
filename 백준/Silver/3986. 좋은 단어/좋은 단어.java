@@ -22,9 +22,7 @@ class Main {
                 if(stack.isEmpty() || c != stack.peek()) {
                     stack.push(c);
                 }
-                else if(!stack.isEmpty() && stack.peek() == c) {
-                    stack.pop();
-                }
+                else stack.pop();
             }
             if(stack.isEmpty()) cnt++;
         }
