@@ -1,83 +1,83 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.StringTokenizer;
 
 class Main {
-    public static void main(String[] args) throws IOException {
-        Main main = new Main();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        char[][] grid = new char[n][n];
+  static int[] dx = {0, 1, 0, -1};
+  static int[] dy = {1, 0, -1, 0};
+  static boolean[][] visited;
+  static char[][] grid;
+  static int N;
 
-        for (int i = 0; i < n; i++) {
-            String tmp = br.readLine();
-            for (int j = 0; j < n; j++) {
-                grid[i][j] = tmp.charAt(j);
-            }
-        }
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        System.out.print(main.solution(n, grid));
-        br.close();
+    N = Integer.parseInt(br.readLine());
+
+    grid = new char[N][N];
+    visited = new boolean[N][N];
+
+    for (int i = 0; i < N; i++) {
+      String line = br.readLine();
+      for (int j = 0; j < N; j++) {
+        grid[i][j] = line.charAt(j);
+      }
     }
 
-    public String solution(int n, char[][] graph) {
-        boolean[][] visited = new boolean[n][n];
-        Queue<int[]> q = new LinkedList<>();
-        Queue<int[]> q2 = new LinkedList<>();
-        q.offer(new int[]{0, 0});
-        visited[0][0] = true;
-        int cnt = 1;
-        int[] dx = {-1, 0, 1, 0};
-        int[] dy = {0, 1, 0, -1};
-        StringBuilder sb = new StringBuilder();
+    int normalCount = countAreas(false);
 
-        boolean flag = false;
-        while (!q.isEmpty()) {
-            int[] tmp = q.poll();
-            char cur = graph[tmp[0]][tmp[1]];
-
-            for (int i = 0; i < 4; i++) {
-                int nx = tmp[0] + dx[i];
-                int ny = tmp[1] + dy[i];
-
-                if (nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-                if (visited[nx][ny]) continue;
-                if (graph[nx][ny] == cur) {
-                    q.offer(new int[]{nx, ny});
-                    visited[nx][ny] = true;
-                } else if (flag) {
-                    if ((cur == 'G' && graph[nx][ny] == 'R') || (cur == 'R' && graph[nx][ny] == 'G')) {
-                        q.offer(new int[]{nx, ny});
-                        visited[nx][ny] = true;
-                    }
-                    else q2.offer(new int[]{nx, ny});
-                } else {
-                    q2.offer(new int[]{nx, ny});
-                }
-
-            }
-            if (q.isEmpty()) {
-                while (!q2.isEmpty()) {
-                    int[] pos = q2.poll();
-                    if(!visited[pos[0]][pos[1]]) {
-                        q.offer(new int[]{pos[0], pos[1]});
-                        visited[pos[0]][pos[1]] = true;
-                        cnt++;
-                        break;
-                    }
-                }
-            }
-            if (q.isEmpty() && !flag) {
-                flag = true;
-                q.offer(new int[]{0, 0});
-                visited = new boolean[n][n];
-                visited[0][0] = true;
-                sb.append(cnt).append(" ");
-                cnt = 1;
-            }
-        }
-        return sb.append(cnt).toString();
+    visited = new boolean[N][N];
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
+        if (grid[i][j] == 'G') grid[i][j] = 'R';
+      }
     }
+
+    int colorBlindCount = countAreas(true);
+
+    bw.write(normalCount + " " + colorBlindCount);
+
+    br.close();
+    bw.flush();
+    bw.close();
+  }
+
+  // 적록색약일때와 아닐때 영역개수 계산
+  private static int countAreas(boolean isColorBlind) {
+    int count = 0;
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
+        if (!visited[i][j]) {
+          BFS(i, j, grid[i][j]);
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  private static void BFS(int i, int j, char color) {
+    Queue<int[]> queue = new LinkedList<>();
+    queue.offer(new int[] {i, j});
+
+    while (!queue.isEmpty()) {
+      int now[] = queue.poll();
+      for (int k = 0; k < 4; k++) {
+        int x = now[0] + dx[k];
+        int y = now[1] + dy[k];
+        if (x >= 0 && y >= 0 && x < N && y < N) {
+          if (grid[x][y] == color && !visited[x][y]) {
+            visited[x][y] = true;
+            queue.add(new int[] {x, y});
+          }
+        }
+      }
+    }
+  }
 }
