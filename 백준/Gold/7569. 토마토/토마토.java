@@ -24,6 +24,7 @@ class Main {
             }
         }
         System.out.print(bfs(board, M, N, H));
+        br.close();
     }
 
     private static int bfs(int[][][] board, int M, int N, int H) {
