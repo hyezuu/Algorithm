@@ -26,8 +26,7 @@ class Main {
     }
 
     private static String bfs(char[][] board, int w, int h) {
-        Queue<Pos> fireQ = new LinkedList<>();
-        Queue<Pos> personQ = new LinkedList<>();
+        Queue<Pos> q = new LinkedList<>();
 
         int[] dx = {-1, 0, 1, 0};
         int[] dy = {0, 1, 0, -1};
@@ -41,21 +40,22 @@ class Main {
         }
 
         int nx, ny, nd;
+        Pos tmp = new Pos(0, 0,0);
 
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
                 if (board[i][j] == '*') {
-                    fireQ.offer(new Pos(i, j, 0));
+                    q.offer(new Pos(i, j, 0));
                     distF[i][j] = 0;
                 } else if (board[i][j] == '@') {
-                    personQ.offer(new Pos(i, j, 0));
+                    tmp = new Pos(i, j, 0);
                     distP[i][j] = 0;
                 }
             }
         }
 
-        while (!fireQ.isEmpty()) {
-            Pos fire = fireQ.poll();
+        while (!q.isEmpty()) {
+            Pos fire = q.poll();
             for (int i = 0; i < 4; i++) {
                 nx = fire.x + dx[i];
                 ny = fire.y + dy[i];
@@ -65,12 +65,14 @@ class Main {
                 if (distF[nx][ny] >= 0 || board[nx][ny] == '#') continue;
 
                 distF[nx][ny] = nd;
-                fireQ.offer(new Pos(nx, ny, nd));
+                q.offer(new Pos(nx, ny, nd));
             }
         }
 
-        while (!personQ.isEmpty()) {
-            Pos person = personQ.poll();
+        q.offer(tmp);
+
+        while (!q.isEmpty()) {
+            Pos person = q.poll();
             for (int i = 0; i < 4; i++) {
                 nx = person.x + dx[i];
                 ny = person.y + dy[i];
@@ -83,7 +85,7 @@ class Main {
 
                 //방문처리
                 distP[nx][ny] = nd;
-                personQ.offer(new Pos(nx, ny, nd));
+                q.offer(new Pos(nx, ny, nd));
             }
         }
         return "IMPOSSIBLE";
