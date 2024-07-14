@@ -34,22 +34,23 @@ class Main {
         int[][] distF = new int[h][w];
         int[][] distP = new int[h][w];
 
-        for (int i = 0; i < h; i++) {
-            Arrays.fill(distF[i], -1);
-            Arrays.fill(distP[i], -1);
-        }
+//        for (int i = 0; i < h; i++) {
+//            Arrays.fill(distF[i], -1);
+//            Arrays.fill(distP[i], -1);
+//        }
 
         int nx, ny, nd;
-        Pos tmp = new Pos(0, 0,0);
+        Pos tmp = new Pos(0, 0, 0);
 
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
                 if (board[i][j] == '*') {
+                    //분 위치만 먼저 넣는다
                     q.offer(new Pos(i, j, 0));
-                    distF[i][j] = 0;
+                    distF[i][j] = 1;
                 } else if (board[i][j] == '@') {
                     tmp = new Pos(i, j, 0);
-                    distP[i][j] = 0;
+                    distP[i][j] = 1;
                 }
             }
         }
@@ -62,9 +63,9 @@ class Main {
                 nd = fire.d + 1;
 
                 if (nx < 0 || ny < 0 || nx >= h || ny >= w) continue;
-                if (distF[nx][ny] >= 0 || board[nx][ny] == '#') continue;
+                if (distF[nx][ny] > 0 || board[nx][ny] == '#') continue;
 
-                distF[nx][ny] = nd;
+                distF[nx][ny] = nd + 1;
                 q.offer(new Pos(nx, ny, nd));
             }
         }
@@ -78,13 +79,13 @@ class Main {
                 ny = person.y + dy[i];
                 nd = person.d + 1;
                 if (nx < 0 || ny < 0 || nx >= h || ny >= w) return nd + "";
-                //방문확인 || 벽인지확인(불체크는ㅇㅏ래에서 해서 안해도된당)
-                if (distP[nx][ny] >= 0 || board[nx][ny] == '#') continue;
+                //방문확인 || 벽인지확인
+                if (distP[nx][ny] > 0 || board[nx][ny] == '#') continue;
                 //불이 전파된 좌표인지 확인
-                if (distF[nx][ny] != -1 && distF[nx][ny] <= nd) continue;
+                if (distF[nx][ny] != 0 && distF[nx][ny] <= nd+1) continue;
 
                 //방문처리
-                distP[nx][ny] = nd;
+                distP[nx][ny] = nd + 1;
                 q.offer(new Pos(nx, ny, nd));
             }
         }
