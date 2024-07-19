@@ -22,6 +22,7 @@ public class Main {
         }
 
         Collections.sort(list);
+        
         for (long i : list) {
             bw.write(i + "\n");
         }
