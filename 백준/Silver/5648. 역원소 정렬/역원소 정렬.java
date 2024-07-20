@@ -33,6 +33,7 @@ public class Main {
         for (long i : list) {
             bw.write(i + "\n");
         }
+        br.close();
         bw.flush();
         bw.close();
     }
