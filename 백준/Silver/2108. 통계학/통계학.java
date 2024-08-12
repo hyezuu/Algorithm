@@ -14,6 +14,7 @@ class Main {
         for(int answer : solution(nums)){
             System.out.println(answer);
         }
+        br.close();
     }
 
     static int[] solution(int[] nums){
