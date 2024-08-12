@@ -21,7 +21,7 @@ class Main {
         //산술평균, 중앙값, 최빈값, 범위
         int[] answer = new int[4];
         int max = 0;
-        Map<Integer, Integer> map = new LinkedHashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         Set<Integer> set = new LinkedHashSet<>();
         int sum = 0;
         for(int num : nums){
@@ -37,7 +37,7 @@ class Main {
                 cnt++;
             }
         }
-        
+
         answer[0] = Math.round((float) sum /nums.length);
         answer[1] = nums[nums.length/2];
         answer[3] = nums[nums.length-1]-nums[0];
