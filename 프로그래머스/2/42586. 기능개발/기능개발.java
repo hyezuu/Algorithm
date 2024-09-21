@@ -13,15 +13,13 @@ class Solution {
             int tmp = q.poll();
             int cnt = 1;
             
-            while(!q.isEmpty()){
-                if(q.peek()<=tmp){
-                    cnt++;
-                    q.poll();
-                }
-                else break;
+            while(!q.isEmpty()&&q.peek()<=tmp){
+                cnt++;
+                q.poll();
             }
             list.add(cnt);
         }
+        
         int i=0;
         int[] answer = new int[list.size()];
         for(int a : list){
