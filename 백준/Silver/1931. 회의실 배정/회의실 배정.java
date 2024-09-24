@@ -45,7 +45,7 @@ class Time implements Comparable<Time>{
 
     public int compareTo(Time o){
         if(this.end == o.end){
-            return this.start-o.start;
+            return this.start-o.end;
         }
         return this.end-o.end;
     }
