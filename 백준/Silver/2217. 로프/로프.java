@@ -22,7 +22,7 @@ class Main {
 
         int max = 0;
         for(int i=1; i<=weights.length; i++){
-            if(weights[i-1]*i>max) max = weights[i-1]*i;
+            max = Math.max(weights[i-1]*i, max);
         }
 
         return max;
