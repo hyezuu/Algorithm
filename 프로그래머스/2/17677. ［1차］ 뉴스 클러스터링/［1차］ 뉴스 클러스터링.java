@@ -9,18 +9,9 @@ class Solution {
         str1 = str1.toLowerCase();
         str2 = str2.toLowerCase();
         
-        for(int i=0; i<str1.length()-1; i++){
-            String tmp = str1.substring(i,i+2);
-            if(isMatch(tmp)) {
-                map1.put(tmp, map1.getOrDefault(tmp, 0)+1);
-            }
-        }
-        for(int i=0; i<str2.length()-1; i++){
-            String tmp = str2.substring(i,i+2);
-            if(isMatch(tmp)) {
-                map2.put(tmp, map2.getOrDefault(tmp, 0)+1);
-            }
-        }
+        initMap(str1, map1);
+        initMap(str2, map2);
+    
         int uc = 0;
         int ic = 0;
         for(String key : map1.keySet()){
@@ -39,7 +30,15 @@ class Solution {
         
         return uc == 0 ? 65536 : (int)(((double)ic/uc*65536));
     }
-    public static boolean isMatch(String str){
+    private boolean isMatch(String str){
         return Pattern.matches("^[a-z]+$",str);
+    }
+    private void initMap(String str, Map<String, Integer> map){
+        for(int i=0; i<str.length()-1; i++){
+            String tmp = str.substring(i,i+2);
+            if(isMatch(tmp)) {
+                map.put(tmp, map.getOrDefault(tmp, 0)+1);
+            }
+        }
     }
 }
