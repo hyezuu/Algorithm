@@ -8,8 +8,6 @@ class Solution {
         return cnt;
     }
     public boolean isPrime(String p){
-        if(p.contains("0")) return false;
-        
         long n = Long.parseLong(p);
         if(n<=1) return false;
         
