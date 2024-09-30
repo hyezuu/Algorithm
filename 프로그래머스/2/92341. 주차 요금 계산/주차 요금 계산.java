@@ -2,10 +2,7 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] fees, String[] records) {
-        int dt = fees[0];
-        int df = fees[1];
-        int ut = fees[2];
-        int uf = fees[3];
+        int dt = fees[0], df = fees[1], ut = fees[2], uf = fees[3];
         
         Map<Integer, Integer> parkingMap = new HashMap<>();
         Map<Integer, Integer> timeMap = new TreeMap<>();
