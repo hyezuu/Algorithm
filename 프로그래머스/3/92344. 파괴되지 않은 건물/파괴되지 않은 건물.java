@@ -16,13 +16,13 @@ class Solution {
         }
         
         for(int i=0; i<n; i++){
-            for(int j=1; j<=m; j++){
+            for(int j=1; j<m; j++){
                 sum[i][j] += sum[i][j-1];
             }
         }
         
         for(int j=0; j<m; j++){
-            for(int i=1; i<=n; i++){
+            for(int i=1; i<n; i++){
                 sum[i][j] += sum[i-1][j];
             }
         }
