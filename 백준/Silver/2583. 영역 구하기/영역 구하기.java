@@ -50,11 +50,13 @@ class Main {
                 if (board[i][j] == 0) {
                     q.offer(new int[]{i, j});
                     cnt++;
+                    size++;
+                    board[i][j] = 1;
                     while (!q.isEmpty()) {
-                        int[] nx = {0, 0, 0, -1, 1};
-                        int[] ny = {0, -1, 1, 0, 0};
+                        int[] nx = {0, 0, -1, 1};
+                        int[] ny = {-1, 1, 0, 0};
                         int[] tmp = q.poll();
-                        for (int k = 0; k < 5; k++) {
+                        for (int k = 0; k < 4; k++) {
                             int dx = tmp[1] + nx[k];
                             int dy = tmp[0] + ny[k];
 
