@@ -7,8 +7,7 @@ class Main {
     static int n;
     static int m;
     static int v;
-    static List<Integer> dfsList = new ArrayList<>();
-    static List<Integer> bfsList = new ArrayList<>();
+    static StringBuilder sb;
     static boolean[] visited;
 
     public static void main(String[] args) throws Exception {
@@ -39,22 +38,16 @@ class Main {
             graph[i].sort(Integer::compareTo);
         }
 
+        sb = new StringBuilder();
         visited = new boolean[n+1];
         dfs(v);
+        sb.append("\n");
         bfs(v);
-
-
-        for(int i : dfsList){
-            System.out.print(i+" ");
-        }
-        System.out.println();
-        for(int i : bfsList){
-            System.out.print(i+" ");
-        }
+        System.out.print(sb.toString());
     }
 
     public static void dfs(int v) {
-        dfsList.add(v);
+        sb.append(v+" ");
         visited[v] = true;
 
         for(int i : graph[v]){
@@ -72,7 +65,7 @@ class Main {
 
         while(!q.isEmpty()){
             int poll = q.poll();
-            bfsList.add(poll);
+            sb.append(poll+" ");
             for(int i : graph[poll]){
                 if(!visited[i]){
                     q.offer(i);
