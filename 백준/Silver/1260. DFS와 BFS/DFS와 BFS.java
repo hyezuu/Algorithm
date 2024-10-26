@@ -3,7 +3,7 @@ import java.util.*;
 
 class Main {
 
-    static boolean[][] graph;
+    static ArrayList<Integer>[] graph;
     static int n;
     static int m;
     static int v;
@@ -20,15 +20,23 @@ class Main {
         m = Integer.parseInt(st.nextToken());
         v = Integer.parseInt(st.nextToken());
 
-        graph = new boolean[n+1][n+1];
+        graph = new ArrayList[n+1];
+
+        for(int i=1; i<=n; i++) {
+            graph[i] = new ArrayList<>();
+        }
 
         for(int i=0; i<m; i++){
             st = new StringTokenizer(br.readLine());
             int n1 = Integer.parseInt(st.nextToken());
             int n2 = Integer.parseInt(st.nextToken());
 
-            graph[n1][n2] = true;
-            graph[n2][n1] = true;
+            graph[n1].add(n2);
+            graph[n2].add(n1);
+        }
+
+        for(int i=1; i<=n; i++){
+            graph[i].sort(Integer::compareTo);
         }
 
         visited = new boolean[n+1];
@@ -48,8 +56,9 @@ class Main {
     public static void dfs(int v) {
         dfsList.add(v);
         visited[v] = true;
-        for(int i=1; i<=n; i++){
-            if(graph[v][i] && !visited[i]){
+
+        for(int i : graph[v]){
+            if(!visited[i]){
                 dfs(i);
             }
         }
@@ -64,8 +73,8 @@ class Main {
         while(!q.isEmpty()){
             int poll = q.poll();
             bfsList.add(poll);
-            for(int i=1; i<=n; i++){
-                if(graph[poll][i] && !visited[i]){
+            for(int i : graph[poll]){
+                if(!visited[i]){
                     q.offer(i);
                     visited[i] = true;
                 }
