@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.*;
 
 class Main {
-    static ArrayList<Integer>[] network;
-    static boolean[] visited;
+    static int [][] graph;
     static int N;
     static int other;
+    static int[] dist;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,39 +16,33 @@ class Main {
 
         int M = Integer.parseInt(br.readLine());
 
-        network = new ArrayList[N+1];
-        for(int i=1; i<=N; i++){
-            network[i] = new ArrayList<>();
-        }
+        graph = new int[N+1][N+1];
 
         for(int i=0; i<M; i++){
             st = new StringTokenizer(br.readLine());
             int parents = Integer.parseInt(st.nextToken());
             int child = Integer.parseInt(st.nextToken());
 
-            network[parents].add(child);
-            network[child].add(parents);
+            graph[parents][child] = graph[child][parents] = 1;
         }
-        visited = new boolean[N+1];
-        visited[me] = true;
-        System.out.print(dfs(me, 0));
+        dist = new int[N+1];
+        bfs(me);
+        System.out.print(dist[other] == 0 ? -1 : dist[other]);
     }
 
-    public static int dfs(int d, int distance){
-        if(d==other){
-            return distance;
-        }
-        for(int next : network[d]){
-            if(!visited[next]){
-                visited[next] = true;
-                int result = dfs(next, distance+1);
-                if(result != -1){
-                    return result;
+    public static void bfs (int d){
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(d);
+
+        while(!q.isEmpty()){
+            int tmp = q.poll();
+            if(tmp == other) break;
+            for (int i=1; i<=N; i++) {
+                if(graph[tmp][i] == 1 && dist[i]==0) {
+                    q.offer(i);
+                    dist[i] = dist[tmp] + 1;
                 }
-                visited[next] = false;
             }
         }
-        return -1;
     }
-
 }
