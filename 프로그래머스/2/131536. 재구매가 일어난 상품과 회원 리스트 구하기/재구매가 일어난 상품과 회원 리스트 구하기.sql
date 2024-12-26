@@ -1,12 +1,13 @@
--- 코드를 입력하세요
-SELECT DISTINCT USER_ID, PRODUCT_ID
-FROM ONLINE_SALE as OS
-WHERE EXISTS (
-    SELECT 1
-    FROM ONLINE_SALE as SUB
-    WHERE OS.USER_ID = SUB.USER_ID
-    AND OS.PRODUCT_ID = SUB.PRODUCT_ID
-    GROUP BY USER_ID, PRODUCT_ID
-    HAVING COUNT(*) > 1
-)
-ORDER BY USER_ID, PRODUCT_ID DESC
+SELECT 
+    user_id,
+    product_id
+FROM 
+    online_sale
+GROUP BY
+    1,
+    2
+HAVING
+    COUNT(sales_amount) >= 2
+ORDER BY
+    1, 
+    2 DESC;
