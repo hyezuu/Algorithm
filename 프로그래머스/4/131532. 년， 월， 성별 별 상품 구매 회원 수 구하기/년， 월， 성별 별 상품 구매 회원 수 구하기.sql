@@ -1,0 +1,13 @@
+-- 코드를 입력하세요
+SELECT 
+    YEAR(os.SALES_DATE) as YEAR, 
+    MONTH(os.SALES_DATE) as MONTH,
+    u.GENDER,
+    COUNT(distinct u.user_ID) as USERS
+FROM USER_INFO as u
+JOIN ONLINE_SALE as os  ON u.user_id = os.user_id
+WHERE u.GENDER is NOT NULL
+GROUP BY 
+    YEAR(os.SALES_DATE), MONTH(os.SALES_DATE), u.GENDER
+ORDER BY 
+    YEAR(os.SALES_DATE), MONTH(os.SALES_DATE), u.GENDER
