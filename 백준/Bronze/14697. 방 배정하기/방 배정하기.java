@@ -13,11 +13,19 @@ public class Main {
 
 		int n = Integer.parseInt(st.nextToken());
 
-		if (n % (a + b + c) == 0 || n % (a + b) % c == 0 || n % (a + c) % b == 0
-			|| n % (b + c) % a == 0 || n % a % b % c == 0 || n % b % c % a == 0 || n % c % b % a == 0) {
-			System.out.print(1);
-		} else {
-			System.out.print(0);
+		int answer = 0;
+
+		for(int i=0; i<=n/a; i++){
+			for(int j=0; j<=n/b; j++){
+				for(int k=0; k<=n/c; k++){
+					if(a*i+b*j+c*k==n){
+						answer = 1;
+						break;
+					}
+				}
+			}
 		}
+
+		System.out.print(answer);
 	}
 }
