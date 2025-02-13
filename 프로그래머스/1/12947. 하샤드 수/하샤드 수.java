@@ -1,11 +1,12 @@
 class Solution {
     public boolean solution(int x) {
-        int sum = 0, n=x;
-        while(n>0){
-            sum+=n%10;
-            n/=10;
+        int tmp = x;
+        int sum = 0;
+        while(tmp > 0){
+            sum += tmp%10;
+            tmp /= 10;
         }
         
-        return x%sum==0 ? true : false;        
+        return x%sum == 0;
     }
 }
