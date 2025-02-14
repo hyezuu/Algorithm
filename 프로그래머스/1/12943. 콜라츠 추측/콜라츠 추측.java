@@ -1,13 +1,14 @@
 class Solution {
     public int solution(int num) {
-        long n = num;
-        int cnt=0;
-        while(n!=1){
-            if(cnt>=500) return -1;
-            else if(n%2==0) n/=2;
-            else n=n*3+1;
-            cnt++;
+        if(num==1) return 0;
+        long tmp = num;
+        
+        for(int i=1; i<=500; i++){
+            tmp = tmp%2==0 ? tmp/2 : tmp*3+1;
+            
+            if(tmp==1) return i;
         }
-        return cnt;
+        
+        return -1;
     }
 }
