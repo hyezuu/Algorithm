@@ -2,9 +2,10 @@ class Solution {
     public int solution(int[] numbers) {
         int answer = 45;
         
-        for(int k : numbers){
-            answer-=k;
+        for(int num : numbers){
+            answer-=num;
         }
+        
         return answer;
     }
 }
