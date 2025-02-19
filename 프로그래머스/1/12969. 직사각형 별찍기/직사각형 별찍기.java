@@ -6,6 +6,8 @@ class Solution {
         int a = sc.nextInt();
         int b = sc.nextInt();
 
-        System.out.print(((("*".repeat(a))+"\n").repeat(b)));
+        for(int i=0; i<b; i++){
+            System.out.println("*".repeat(a));
+        }
     }
 }
