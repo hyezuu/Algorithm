@@ -1,11 +1,14 @@
 class Solution {
     public int solution(int[][] sizes) {
-        int x = 0, y = 0; 
-        for(int[] card : sizes){
-            x = Math.max(Math.max(card[0], card[1]),x);
-            y = Math.max(Math.min(card[0], card[1]),y);
+        int w = 0 , h = 0;
+        for(int[] size : sizes){
+            int max =  Math.max(size[0], size[1]);
+            int min = Math.min(size[0], size[1]);
+            
+            w = Math.max(w, max);
+            h = Math.max(h, min);
         }
         
-        return x*y;
+        return w*h;
     }
 }
