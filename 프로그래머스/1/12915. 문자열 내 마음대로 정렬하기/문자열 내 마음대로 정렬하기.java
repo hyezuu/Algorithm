@@ -1,19 +1,27 @@
-class Solution {
-    public String[] solution(String[] strings, int n) {
-        int min = 27;
+import java.util.*;
 
-        for (int i = 0; i < strings.length; i++) {
-            min = strings[i].charAt(n) - 'a';
-            for (int j = i + 1; j < strings.length; j++) {
-                int tn = strings[j].charAt(n) - 'a';
-                String tmp = strings[i];
-                if (min > tn || (min == tn && tmp.compareTo(strings[j])>0)) {
-                    min = tn;
-                    strings[i] = strings[j];
-                    strings[j] = tmp;
+class Solution {
+
+    public String[] solution(String[] s, int n) {
+        Queue<String> q = new PriorityQueue<>(
+            (o1, o2) -> {
+                if (o1.charAt(n) == o2.charAt(n)) {
+                    return o1.compareTo(o2);
                 }
+                return o1.charAt(n) - o2.charAt(n);
             }
+        );
+
+        for (int i = 0; i < s.length; i++) {
+            q.offer(s[i]);
         }
-        return strings;
-    }
+
+        String[] answer = new String[s.length];
+
+        for (int i = 0; i < s.length; i++) {
+            answer[i] = q.poll();
+        }
+
+        return answer;
+	}
 }
