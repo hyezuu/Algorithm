@@ -1,16 +1,18 @@
 class Solution {
     public int[] solution(int[] answers) {
         
-        int[] person1 = {1, 2, 3, 4, 5};
-        int[] person2 = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] person3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        int[][] persons = {
+            {1, 2, 3, 4, 5},
+            {2, 1, 2, 3, 2, 4, 2, 5},
+            {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        };
         
         int[] arr = new int[3];
         
         for(int i=0; i<answers.length; i++){
-            if(answers[i] == person1[i%person1.length]) arr[0]++;
-            if(answers[i] == person2[i%person2.length]) arr[1]++;
-            if(answers[i] == person3[i%person3.length]) arr[2]++;
+            for(int j=0; j<persons.length; j++){
+                if(answers[i] == persons[j][i%persons[j].length]) arr[j]++;
+            }
         }
         
         int max = Math.max(arr[0], Math.max(arr[1], arr[2]));
