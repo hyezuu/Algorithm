@@ -1,38 +1,37 @@
-import java.util.*;
-
 class Solution {
-    Map<Integer, List<Integer>> map = new HashMap<>();
-    
     public int[] solution(int[] answers) {
-        int[] p1 = {1, 2, 3, 4, 5};
-        int[] p2 = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] p3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
         
-        int s1 = 0;
-        int s2 = 0;
-        int s3 = 0;
+        int[] person1 = {1, 2, 3, 4, 5};
+        int[] person2 = {2, 1, 2, 3, 2, 4, 2, 5};
+        int[] person3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        
+        int[] arr = new int[3];
         
         for(int i=0; i<answers.length; i++){
-            if(p1[i%p1.length]==answers[i]) s1++;
-            if(p2[i%p2.length]==answers[i]) s2++;
-            if(p3[i%p3.length]==answers[i]) s3++;
+            if(answers[i] == person1[i%person1.length]) arr[0]++;
+            if(answers[i] == person2[i%person2.length]) arr[1]++;
+            if(answers[i] == person3[i%person3.length]) arr[2]++;
         }
         
-        map.put(s1, new ArrayList<>(Arrays.asList(1)));
-        map.put(s2, map.getOrDefault(s2, new ArrayList<>()));
-        map.get(s2).add(2);
-        map.put(s3, map.getOrDefault(s3, new ArrayList<>()));
-        map.get(s3).add(3);
+        int max = Math.max(arr[0], Math.max(arr[1], arr[2]));
         
-        int max = Math.max(s1, Math.max(s2,s3));
-        int size = map.get(max).size();
+        int len = 0;
+        
+        for(int a : arr){
+            if(a == max) len++;
+        }
+        
+        int[] answer = new int[len];
+        
         int idx = 0;
         
-        int[] answer = new int[size];
-        for(int a : map.get(max)){
-            answer[idx++] = a;
+        for(int i=0; i<arr.length; i++){
+            if(arr[i]==max){
+                answer[idx++] = i+1;
+            }
         }
         
         return answer;
+        
     }
 }
