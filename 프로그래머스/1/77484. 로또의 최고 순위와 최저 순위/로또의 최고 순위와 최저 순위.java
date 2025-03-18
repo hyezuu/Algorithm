@@ -1,19 +1,27 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] lottos, int[] win_nums) {
-        int correct = 0;
-        int zero = 0;
+        Set<Integer> set = new HashSet<>();
         
-        int[] nums = new int[46];
-        
-        for(int i : win_nums){
-            nums[i]++;
+        for(int n : win_nums){
+            set.add(n);
         }
+        
+        int wildcard = 0;
+        int correct = 0;
         
         for(int i : lottos){
-            if(i==0) zero++;
-            else if(nums[i]>0) correct++;
+            if(i == 0) {
+                wildcard ++ ;
+            }
+            
+            if(set.contains(i)) correct ++;
         }
         
-        return new int[]{Math.min(7-(correct+zero),6), Math.min((7-correct), 6)};
+        int high = Math.min(7 - (wildcard + correct), 6);
+        int low = Math.min(7-correct, 6);
+        
+        return new int[]{high, low};
     }
 }
