@@ -1,39 +1,42 @@
 import java.util.*;
 
 class Solution {
-    public int[] solution(String today, String[] terms, String[] privacies) {
-        Map<String, Integer> map = new HashMap<>();
-        List<Integer> list = new ArrayList<>();
+    public List<Integer> solution(String today, String[] terms, String[] privacies) {
+        int year = Integer.parseInt(today.substring(0, 4));
+        int month = Integer.parseInt(today.substring(5, 7));
+        int date = Integer.parseInt(today.substring(8, 10));
+        
+        Map<Character, Integer> map = new HashMap<>();
+        
         for(String term : terms){
-            String[] tmp = term.split(" ");
-            map.put(tmp[0], Integer.parseInt(tmp[1]));
+            map.put(term.charAt(0), Integer.parseInt(term.substring(2)));
         }
         
-        int todays = getDate(today);
+        List<Integer> list = new ArrayList<>();
         
-        for(int i=0; i<privacies.length; i++){
-            String[] tmp = privacies[i].split(" ");
+        int idx = 1;
+        
+        for(String privacy : privacies){
+            int tempYear = Integer.parseInt(privacy.substring(0, 4));
+            int tempMonth = Integer.parseInt(privacy.substring(5, 7));
+            int tempDate = Integer.parseInt(privacy.substring(8, 10));
             
-            int days = getDate(tmp[0])+map.get(tmp[1])*28;
-            if(todays >= days){
-                list.add(i+1);
+            int addedDate = 28*(map.get(privacy.charAt(11)));
+            
+            int totalDate = getTotalDate(year, month, date);
+            int expirationDate = getTotalDate(tempYear, tempMonth, tempDate) + addedDate;
+            
+            if(totalDate >= expirationDate){
+                list.add(idx);
             }
+            idx++;
         }
-        int[] answer = new int[list.size()];
         
-        for(int i=0; i<list.size(); i++){
-            answer[i] = list.get(i);
-        }
-        return answer;
+        return list;
+        
     }
     
-    public int getDate(String strDate){
-        int[] multi = {28*12, 28, 1};
-        String[] split = strDate.split("\\.");
-        int answer = 0;
-        for(int i=0; i<3; i++){
-            answer+=Integer.parseInt(split[i])*multi[i];
-        }
-        return answer;
+    private int getTotalDate(int year, int month, int date){
+        return date + month*28 + (year-2000)*(28*12);
     }
 }
