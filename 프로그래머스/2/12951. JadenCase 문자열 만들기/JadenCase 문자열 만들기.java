@@ -1,13 +1,19 @@
 class Solution {
-  public String solution(String s) {
-        String[] arr = s.toLowerCase().split("");
-        boolean flag = true;
+    public String solution(String s) {
         StringBuilder sb = new StringBuilder();
-        for(String str : arr) {
-            sb.append(flag ? str.toUpperCase() : str);
-            flag = str.equals(" ") ? true : false;
+        boolean isFirst = true;
+        for(char c : s.toCharArray()){
+            if(isFirst){
+                isFirst = false;
+                if(Character.isAlphabetic(c)){
+                    sb.append(Character.toUpperCase(c));
+                    continue;
+                }
+            }
+        
+            if(c == ' ') isFirst = true;
+            sb.append(Character.toLowerCase(c));
         }
-
         return sb.toString();
-  }
+    }
 }
