@@ -1,15 +1,17 @@
 class Solution {
     public int[] solution(int brown, int yellow) {
-        int area = brown+yellow;
-        int x = 0, y = 0;
-        for(int i=1; i<=Math.sqrt(area); i++){
-            if(area%i==0){
-                x = Math.max(area/i , i);
-                y = area/x;
-                
-                if((x-2) * (y-2) == yellow) break;
+        int total = brown + yellow;
+        int x = 0;
+        int y = 0;
+        for(int i=3; i<=Math.sqrt(total); i++){
+            if(total%i==0){
+                int tmp = total/i;
+                if((tmp-2+i)*2==brown){
+                    x = Math.max(tmp, i);
+                    y = Math.min(tmp, i);
+                }
             }
         }
-        return new int[]{x,y};
+        return new int[]{x, y};
     }
 }
