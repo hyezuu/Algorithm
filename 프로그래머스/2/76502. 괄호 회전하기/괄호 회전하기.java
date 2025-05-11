@@ -1,34 +1,36 @@
-import java.util.Stack;
+import java.util.*;
 
 class Solution {
-    private final Stack<Character> stack = new Stack<>();
-
-        public int solution(String s) {
-            int answer = 0;
-            StringBuilder stringBuilder = new StringBuilder(s);
-
-            for (int i = 0; i < s.length(); i++) {
-                stringBuilder.append(stringBuilder.charAt(0));
-                stringBuilder.deleteCharAt(0);
-                if (correctParenthesis(stringBuilder.toString().toCharArray()))
-                    answer++;
+    public int solution(String s) {
+        Map<Character, Character> map = new HashMap<>();
+        
+        map.put(')','(');
+        map.put(']','[');
+        map.put('}','{');
+        
+        StringBuilder sb = new StringBuilder(s);
+        
+        int answer = 0;
+        
+        for(int i=0; i<sb.length(); i++){
+            Stack<Character> stack = new Stack<>();
+            for(int j=0; j<sb.length(); j++){
+                char cur = sb.charAt(j);
+                if(map.containsKey(cur)){
+                    if(!stack.isEmpty() && stack.peek().equals(map.get(cur))){
+                        stack.pop();
+                    }
+                    else {
+                        stack.push('-');
+                        break;
+                    }
+                }
+                else stack.push(cur);
             }
-            return answer;
+            if(stack.isEmpty()) answer++;
+            sb.append(sb.charAt(0));
+            sb.deleteCharAt(0);
         }
-
-        private boolean correctParenthesis(char[] s) {
-            for (char c : s) {
-                if (!(check(c, '(', ')') && check(c, '[', ']') && check(c, '{', '}')))
-                    return false;
-            }
-            return stack.isEmpty();
-        }
-
-        private boolean check(char c, char a, char b) {
-            if (c == a)
-                stack.push(a);
-            else if (c == b)
-                if (!stack.isEmpty() && stack.peek() == a) stack.pop(); else return false;
-            return true;
-        }
+        return answer;
+    }
 }
