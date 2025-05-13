@@ -6,24 +6,25 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+  static char[][] arr;
+  static int r, c;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
 
-    int r = Integer.parseInt(st.nextToken());
-    int c = Integer.parseInt(st.nextToken());
+    r = Integer.parseInt(st.nextToken());
+    c = Integer.parseInt(st.nextToken());
 
-    char[][] arr = new char[r][c];
+    arr = new char[r][c];
 
     for(int i=0; i<r; i++){
       arr[i] = br.readLine().toCharArray();
     }
-
-    System.out.print(bfs(arr, r, c));
+    System.out.print(bfs());
   }
 
-  static String bfs(char[][] arr, int r, int c) {
+  static String bfs() {
     Queue<int[]> q = new ArrayDeque<>();
     boolean[][] visited = new boolean[r][c];
 
@@ -32,10 +33,10 @@ public class Main {
 
     int[] dx = new int[]{-1, 0, 1, 0};
     int[] dy = new int[]{0, 1, 0, -1};
-    //구역 내의 양의 수 > 늑대의 수일때만 양이 살아남음
+
     for (int i = 0; i < r; i++) {
       for (int j = 0; j < c; j++) {
-        if (!visited[i][j] && arr[i][j] != '#') {
+        if (!visited[i][j] && (arr[i][j] == 'o' || arr[i][j] == 'v')) {
           q.offer(new int[]{i, j});
           visited[i][j] = true;
         }
@@ -49,12 +50,8 @@ public class Main {
           int curY = cur[0];
           int curX = cur[1];
 
-          if(arr[curY][curX] == 'v'){
-            curV++;
-          }
-          if(arr[curY][curX] == 'o'){
-            curO++;
-          }
+          if(arr[curY][curX] == 'v') curV++;
+          if(arr[curY][curX] == 'o')curO++;
 
           for(int k = 0; k < 4; k++) {
             int y = curY + dy[k];
@@ -70,7 +67,6 @@ public class Main {
         else totalO += curO;
       }
     }
-
     return totalO + " " + totalV;
   }
 }
