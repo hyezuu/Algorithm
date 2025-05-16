@@ -1,11 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -15,7 +12,7 @@ public class Main {
   static int[] dy = {-1, 0, 1, 1, -1, -1, 0, 1};
   static int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
   static int n, m, k;
-  static int maxLen;
+  static StringBuilder sb;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,75 +28,73 @@ public class Main {
       board[i] = br.readLine().toCharArray();
     }
 
-    maxLen = 0;
-    map = new LinkedHashMap<>();
+    sb = new StringBuilder();
+    map = new HashMap<>();
 
     for (int i = 0; i < k; i++) {
       String tmp = br.readLine();
-      map.put(tmp, 0);
-      maxLen = Math.max(maxLen, tmp.length());
+      solve(tmp);
     }
-
-    System.out.println(solve());
+    System.out.println(sb.toString());
   }
 
-  static String solve() {
-    Queue<Node> queue = new LinkedList<>();
+  static void solve(String answer) {
+    if(map.containsKey(answer)){
+      sb.append(map.get(answer)).append('\n');
+      return;
+    }
+
+    if (answer.length() == 1) {
+      int count = 0;
+      char target = answer.charAt(0);
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (board[i][j] == target) {
+            count++;
+          }
+        }
+      }
+      sb.append(count).append('\n');
+      map.put(answer, count);
+      return;
+    }
+
+
+    int[][][] dp = new int[n][m][answer.length()+1];
+    int cnt = 0;
+
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        String s = String.valueOf(board[i][j]);
-        queue.offer(new Node(new int[]{i, j}, s));
-        if (map.containsKey(s)) {
-          map.put(s, map.get(s) + 1);
+        if (board[i][j] == answer.charAt(0)) {
+          dp[i][j][0] = 1;
         }
       }
     }
 
-    StringBuilder sb;
+    for (int idx = 1; idx < answer.length(); idx++) {
+      for (int y = 0; y < n; y++) {
+        for (int x = 0; x < m; x++) {
+          if (dp[y][x][idx-1] > 0) {
 
-    while (!queue.isEmpty()) {
-      Node node = queue.poll();
+            for (int d = 0; d < 8; d++) {
+              int ny = (y + dy[d] + n) % n;
+              int nx = (x + dx[d] + m) % m;
 
-      if (node.value.length() > maxLen) {
-        break;
-      }
-
-      sb = new StringBuilder(node.value);
-
-      int y = node.position[0];
-      int x = node.position[1];
-
-      for (int i = 0; i < 8; i++) {
-        int ny = (y + dy[i] + n) % n;
-        int nx = (x + dx[i] + m) % m;
-        sb.append(board[ny][nx]);
-        String s = sb.toString();
-        queue.offer(new Node(new int[]{ny, nx}, s));
-        if (map.containsKey(s)) {
-          map.put(s, map.get(s) + 1);
+              if (board[ny][nx] == answer.charAt(idx)) {
+                dp[ny][nx][idx] += dp[y][x][idx-1];
+              }
+            }
+          }
         }
-        sb.deleteCharAt(sb.length() - 1);
       }
     }
 
-    sb = new StringBuilder();
-
-    for (String str : map.keySet()) {
-      sb.append(map.get(str)).append("\n");
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        cnt += dp[i][j][answer.length()-1];
+      }
     }
-
-    return sb.toString();
-  }
-
-  static class Node {
-
-    int[] position;
-    String value;
-
-    Node(int[] position, String value) {
-      this.position = position;
-      this.value = value;
-    }
+    sb.append(cnt).append('\n');
+    map.put(answer, cnt);
   }
 }
-
