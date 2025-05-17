@@ -2,29 +2,27 @@ import java.util.*;
 
 class Solution {
     public int solution(String[] want, int[] number, String[] discount) {
-        Map<String, Integer> map = new HashMap<>();
-        
-        for(int i=0; i<want.length; i++){
-            map.put(want[i] ,number[i]);
+        int answer = 0;
+        ArrayList<String> list = new ArrayList<>();
+
+        for (int i=0; i<want.length; i++) {
+            while (number[i]-- > 0) {
+                list.add(want[i]);
+            }
         }
-        
-        int cnt = 0;
-        int total = want.length;
-        
-        for(int i=0; i<discount.length; i++){
-            String tmp = discount[i];
-            if(i>9) {
-                if(map.containsKey(discount[i-10])){
-                    if(map.get(discount[i-10])==0) total++;
-                    map.put(discount[i-10], map.get(discount[i-10])+1);
+
+        for (int i=0; i<discount.length-list.size()+1;i ++) {
+            ArrayList<String> l = (ArrayList<String>) list.clone();
+            for (int j=i; j<i+list.size(); j++) {
+                if (l.contains(discount[j])) {
+                    l.remove(discount[j]);
+                } else {
+                    break;
                 }
             }
-            if(map.containsKey(tmp)){
-                map.put(tmp, map.get(tmp)-1);
-                if(map.get(tmp)==0) total--;
-            }
-            if(total == 0) cnt++;
+            answer += l.size()==0 ? 1 : 0;
         }
-        return cnt;
+
+        return answer;
     }
 }
