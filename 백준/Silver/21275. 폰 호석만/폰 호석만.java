@@ -69,7 +69,7 @@ public class Main {
         int rt = 0;
         long tmp2 = longNum1;
 
-        while (tmp2 > 0) {
+        while (tmp2 >= 0) {
           if (tmp2 % l != arr2[rt++]) {
             break;
           }
