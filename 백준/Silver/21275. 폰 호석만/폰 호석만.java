@@ -32,7 +32,6 @@ public class Main {
       } else {
         tmp = num1 - 'a' + 10;
       }
-
       arr1[idx--] = tmp;
       max1 = Math.max(max1, tmp);
     }
@@ -55,55 +54,50 @@ public class Main {
 
     Map<Long, int[]> map = new HashMap<>();
 
-    for (int j = max1; j <= 35; j++) {
+    long[] answer = new long[3];
+
+    for (int j = max1; j <= 36; j++) {
       long longNum1 = 0L;
       int pow = 0;
       for (int k : arr1) {
-        longNum1 += (long) (Math.pow(j, pow++) * k);
+        longNum1 += (long) (Math.pow(j, pow++) * (long) k);
       }
-      map.put(longNum1, new int[]{j, 0});
-    }
-
-    for (long key : map.keySet()) {
-      for (int j = max2; j <= 35; j++) {
+      for (int l = max2; l <= 36; l++) {
+        if (l == j) {
+          continue;
+        }
         int rt = 0;
-        long tmp2 = key;
-        int cnt = 0;
+        long tmp2 = longNum1;
+
         while (tmp2 > 0) {
-          if (tmp2 % j != arr2[rt++]) {
+          if (tmp2 % l != arr2[rt++]) {
             break;
           }
-          tmp2 /= j;
-          cnt++;
-          if(rt == arr2.length) break;
+          tmp2 /= l;
+
+          if(rt == arr2.length) {
+            break;
+          }
         }
-        if (cnt == nums2.length()) {
-          int[] arr = map.get(key);
-          arr[1] = j;
-          map.put(key, arr);
+        if (rt == arr2.length && tmp2 == 0) {
+          if (map.containsKey(longNum1)) {
+            System.out.println("Multiple");
+            return;
+          }
+          map.put(longNum1, new int[]{j, l});
+          answer = new long[]{longNum1, j, l};
         }
       }
     }
 
-    long[] answer = new long[3];
-
-    for (long key : map.keySet()) {
-      int[] arr = map.get(key);
-      if (arr[0] != 0 && arr[1] != 0) {
-        if (answer[0] != 0) {
-          System.out.println("Multiple");
-          return;
-        }
-        answer[0] = key;
-        answer[1] = arr[0];
-        answer[2] = arr[1];
-      }
-    }
-    if (answer[0] == 0) {
+    if (map.isEmpty()) {
       System.out.println("Impossible");
       return;
     }
-
+    if (map.size() > 1) {
+      System.out.println("Multiple");
+      return;
+    }
     System.out.println(answer[0] + " " + answer[1] + " " + answer[2]);
   }
 }
