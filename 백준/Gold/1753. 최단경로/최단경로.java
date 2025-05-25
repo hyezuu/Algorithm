@@ -37,7 +37,7 @@ public class Main {
 
       graph.get(from).add(new int[]{to, value});
     }
-    
+
     int[] result = dijkstra();
     for(int i=1; i<result.length; i++){
       int dist = result[i];
@@ -48,6 +48,8 @@ public class Main {
   static int[] dijkstra () {
     PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
     int[] dist = new int[V+1];
+    boolean[] visit = new boolean[V+1];
+    int cnt = 0;
 
     Arrays.fill(dist, Integer.MAX_VALUE);
     dist[K] = 0;
@@ -58,14 +60,16 @@ public class Main {
       int[] node = pq.poll();
       int current = node[0];
       int cost = node[1];
-
-      if(cost > dist[current]) continue;
+      if(visit[current]) continue;
+      visit[current] = true;
+      if(++cnt == V) break;
+      
 
       for (int[] next : graph.get(current)) {
         int nextNode = next[0];
         int nextCost = next[1];
-
-        if(cost + nextCost < dist[nextNode]){
+        
+       if(!visit[nextNode] && cost + nextCost < dist[nextNode]){
           dist[nextNode] = cost + nextCost;
           pq.offer(new int[]{nextNode, cost + nextCost});
         }
