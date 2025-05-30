@@ -29,6 +29,7 @@ public class Main {
 
   static void solve(){
     int[][] answer = new int[N][N];
+    StringBuilder sb = new StringBuilder();
 
     for(int start = 0; start < N; start++){
       boolean[] visited = new boolean[N];
@@ -51,9 +52,11 @@ public class Main {
 
     for(int[] row : answer){
       for(int i : row){
-        System.out.print(i + " ");
+        sb.append(i).append(" ");
       }
-      System.out.println();
+      sb.append("\n");
     }
+
+    System.out.println(sb);
   }
 }
