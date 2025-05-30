@@ -59,8 +59,8 @@ public class Main {
         if(sum < min){
           pair = new int[]{i, j};
           min = sum;
-          sum = 0;
         }
+        sum = 0;
       }
     }
 
