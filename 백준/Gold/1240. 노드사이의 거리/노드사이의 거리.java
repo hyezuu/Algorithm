@@ -41,13 +41,13 @@ public class Main {
   }
 
   static void solve(int from, int to) {
-    Queue<int[]> q = new LinkedList<>();
-    q.offer(new int[]{from, 0});
+    Stack<int[]> stack = new Stack<>();
+    stack.push(new int[]{from, 0});
     boolean[] visited = new boolean[N+1];
     visited[from] = true;
 
-    while(!q.isEmpty()){
-      int[] current = q.poll();
+    while(!stack.isEmpty()){
+      int[] current = stack.pop();
       int node = current[0];
       int cost = current[1];
       if(node == to) {
@@ -61,7 +61,7 @@ public class Main {
 
         if(!visited[nextNode]){
           visited[nextNode] = true;
-          q.offer(new int[]{nextNode, cost + nextCost});
+          stack.push(new int[]{nextNode, cost + nextCost});
         }
       }
     }
