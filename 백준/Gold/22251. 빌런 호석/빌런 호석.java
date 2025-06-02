@@ -32,30 +32,34 @@ public class Main {
   static void solve(int p, int x){
     int[] floor = toSegments(x);
     int cnt = 0;
-    for(int i = 1; i<= N; i++){
+    //층수 다돔
+    outer : for(int i = 1; i<= N; i++){
       if(i == x) continue;
 
       int[] targetFloor = toSegments(i);
       int needed = 0;
 
+      //반전할 비트수 다더하기
       for(int j=0; j<K; j++){
         needed += Integer.bitCount(floor[j] ^ targetFloor[j]);
+        if(needed > p) continue outer;
       }
-
-      if(needed <= p) {
-        cnt++;
-      }
+      
+      cnt++;
     }
 
     System.out.println(cnt);
   }
 
+  //숫자 층을 비트 배열로바꿔줌
   static int[] toSegments(int num) {
     int[] arr = new int[K];
+    //0으로 초기화
     Arrays.fill(arr, 0b1111110);
     int i = K - 1;
     int tmp = num;
     while (tmp > 0) {
+      //뒷자리부터 채움(각자릿수)
       arr[i--] = segments[tmp % 10];
       tmp /= 10;
     }
