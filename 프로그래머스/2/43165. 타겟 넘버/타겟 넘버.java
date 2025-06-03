@@ -1,15 +1,22 @@
-import java.util.*;
-
 class Solution {
+    static int count;
+    static int t;
+    static int[] nums;
     public int solution(int[] numbers, int target) {
-        return dfs(numbers, target, 0, 0);
+        count = 0;
+        t = target;
+        nums = numbers;
+        
+        dfs(0, 0);
+        return count;
     }
     
-    public int dfs (int[] numbers, int target, int idx, int cur){
-        if(idx==numbers.length){
-            return cur==target ? 1 : 0;
+    static void dfs(int i, int total){
+        if(i==nums.length){
+            if(total == t) count++;
+            return;
         }
-        
-        return dfs(numbers, target, idx+1, cur+numbers[idx])+dfs(numbers, target, idx+1, cur-numbers[idx]);
+        dfs(i+1, total+nums[i]);
+        dfs(i+1, total-nums[i]);
     }
 }
