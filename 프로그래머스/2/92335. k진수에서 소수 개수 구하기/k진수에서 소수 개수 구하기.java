@@ -1,18 +1,17 @@
 class Solution {
-    public int solution(int n, int k) {
-        String[] strs = Integer.toString(n, k).trim().split("[0]+");
-        int cnt = 0;
-        for(String str : strs){
-            if(!str.isEmpty() && isPrime(str)) cnt++;
+    public long solution(int n, int k) {
+        String[] strs = Integer.toString(n, k).split("[0]+");
+        long result = 0;
+        for(String s : strs){
+            if(isPrime(Long.parseLong(s))) result++;
         }
-        return cnt;
-    }
-    public boolean isPrime(String p){
-        long n = Long.parseLong(p);
-        if(n<=1) return false;
         
-        for(int i=2; i<=Math.sqrt(n); i++){
-            if(n%i==0) return false;
+        return result;
+    }
+    public boolean isPrime(long k){
+        if(k==1) return false;
+        for(int i=2; i<=Math.sqrt(k); i++){
+            if(k%i==0) return false;
         }
         return true;
     }
