@@ -1,47 +1,33 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-class Main {
+public class Main {
+  static int N, M;
+  static Map<Integer, Integer> map;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int n = Integer.parseInt(br.readLine());
-        int[] nums = new int[n];
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            nums[i] = Integer.parseInt(st.nextToken());
-        }
-
-        int m = Integer.parseInt(br.readLine());
-        int[] targets = new int[m];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < m; i++) {
-            targets[i] = Integer.parseInt(st.nextToken());
-        }
-        int[] answer = solution(n, nums, m, targets);
-        for (int i = 0; i < m; i++) {
-            System.out.print(answer[i] + " ");
-        }
+    N = Integer.parseInt(br.readLine());
+    map = new HashMap<>();
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < N; i++) {
+      int tmp = Integer.parseInt(st.nextToken());
+      map.put(tmp, map.getOrDefault(tmp, 0) + 1);
     }
 
-    public static int[] solution(int n, int[] nums, int m, int[] targets) {
-        Map<Integer, Integer> map = new HashMap<>();
+    M = Integer.parseInt(br.readLine());
 
-        for(int i=0; i<n; i++){
-            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
-        }
-
-        int[] answer = new int[m];
-
-        for(int i=0; i<m; i++){
-            answer[i] = map.getOrDefault(targets[i], 0);
-        }
-
-        return answer;
+    StringBuilder sb = new StringBuilder();
+    st = new StringTokenizer(br.readLine());
+    for(int i = 0; i < M; i++) {
+      int tmp = Integer.parseInt(st.nextToken());
+      sb.append(map.getOrDefault(tmp, 0)).append(" ");
     }
+
+    System.out.println(sb);
+  }
 }
