@@ -58,8 +58,13 @@ public class Main {
      long[] nextResult = dfs(next);
      for(int i = 0; i < 10; i++){
        result[i] += nextResult[i];
-       if(i >= arr[node]) result[arr[node]] += nextResult[i];
+//       if(i >= arr[node]) result[arr[node]] += nextResult[i];
        result[i] %= mod;
+     }
+
+     for(int i=arr[node]; i<10; i++){
+       result[arr[node]] += nextResult[i];
+       result[arr[node]] %= mod;
      }
     }
     return result;
