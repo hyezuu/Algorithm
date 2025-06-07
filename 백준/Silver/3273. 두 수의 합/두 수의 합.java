@@ -4,42 +4,47 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-class Main {
-    public static void main(String[] args) throws IOException {
+public class Main {
 
-        Main main = new Main();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
 
-        int[] arr = new int[n];
-        StringTokenizer stk = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(stk.nextToken());
-        }
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int x = Integer.parseInt(br.readLine());
+    int n = Integer.parseInt(br.readLine());
+    int[] arr = new int[n];
 
-        System.out.print(main.solution(arr , x));
-        br.close();
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    for(int i=0; i<n; i++){
+      arr[i] = Integer.parseInt(st.nextToken());
     }
-    public int solution(int[] arr ,int x) {
-        Arrays.sort(arr);
 
-        int lt = 0;
-        int rt = arr.length - 1;
-        int cnt = 0;
+    int x = Integer.parseInt(br.readLine());
 
-        while (lt < rt) {
-            if(arr[lt] + arr[rt] > x) rt--;
-            else if(arr[lt] + arr[rt] < x) lt++;
-            else {
-                cnt++;
-                lt++;
-                rt--;
-            }
-        }
+    System.out.println(solve(arr, n, x));
+  }
 
-        return cnt;
+  public static int solve(int[] arr, int n, int x) {
+    Arrays.sort(arr);
+
+    int lt = 0, rt = n-1;
+    int cnt = 0;
+
+    while(lt < rt){
+      int sum = arr[lt] + arr[rt];
+
+      if(sum == x){
+        cnt++;
+        lt++;
+        rt--;
+      }
+      else if(sum < x){
+        lt++;
+      }
+      else{
+        rt--;
+      }
     }
+    return cnt;
+  }
 }
-
