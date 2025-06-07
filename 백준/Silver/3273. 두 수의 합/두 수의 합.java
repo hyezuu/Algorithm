@@ -36,6 +36,6 @@ public class Main {
         cnt++;
       }
     }
-    return cnt>>1;
+    return cnt/2;
   }
 }
