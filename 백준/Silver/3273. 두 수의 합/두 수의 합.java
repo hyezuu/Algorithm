@@ -1,50 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
+  static int n, x;
+  static int[] arr;
+  static boolean[] visit;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    int n = Integer.parseInt(br.readLine());
-    int[] arr = new int[n];
+    n = Integer.parseInt(br.readLine());
+    arr = new int[n];
+    visit = new boolean[1000001];
 
     StringTokenizer st = new StringTokenizer(br.readLine());
 
     for(int i=0; i<n; i++){
       arr[i] = Integer.parseInt(st.nextToken());
+      visit[arr[i]] = true;
     }
 
-    int x = Integer.parseInt(br.readLine());
+    x = Integer.parseInt(br.readLine());
 
-    System.out.println(solve(arr, n, x));
+    System.out.println(solve());
   }
 
-  public static int solve(int[] arr, int n, int x) {
-    Arrays.sort(arr);
-
-    int lt = 0, rt = n-1;
+  public static int solve() {
     int cnt = 0;
-
-    while(lt < rt){
-      int sum = arr[lt] + arr[rt];
-
-      if(sum == x){
+    for(int num : arr){
+      int t = x - num;
+      if(t >= 0 && t < 1_000_001 && visit[t]){
         cnt++;
-        lt++;
-        rt--;
-      }
-      else if(sum < x){
-        lt++;
-      }
-      else{
-        rt--;
       }
     }
-    return cnt;
+    return cnt>>1;
   }
 }
