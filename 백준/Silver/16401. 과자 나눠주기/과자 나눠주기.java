@@ -26,8 +26,6 @@ public class Main {
       MAX = Math.max(MAX, snacks[i]);
     }
 
-    Arrays.sort(snacks);
-
     System.out.println(getMaxLength());
   }
 
@@ -62,11 +60,7 @@ public class Main {
     //10 -> 4개짜릴르 두명한테 나눠줄수있자나요
     //9 -> 4개짜리를 두명한테 나눠줄수있어서 <- 돌아도
     for(int i=N-1; i>=0; i--){
-      if(snacks[i] < len) return false;
-      //10으로는 4짜리 두덩어리
-      //두명한테 일단 나눠줬음.
       count += snacks[i] / len;
-      //나이떄까지 나눠준 사람 M명되나 ?
       if(count >= M) return true; //ㅇㅇ됨
     }
     //안되던데
