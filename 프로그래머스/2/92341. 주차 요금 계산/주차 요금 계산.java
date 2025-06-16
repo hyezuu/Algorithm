@@ -3,33 +3,26 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] fees, String[] records) {
         int dt = fees[0], df = fees[1], ut = fees[2], uf = fees[3];
-        
-        Map<Integer, Integer> parkingMap = new HashMap<>();
-        Map<Integer, Integer> timeMap = new TreeMap<>();
+    
+        Map<Integer, Integer> times = new TreeMap<>();
         
         for(String record : records){
             String[] tmp = record.split(" ");
-            int carNumber = Integer.parseInt(tmp[1]);
-            int totalMinutes = convertToTotalTime(tmp[0]);
+            int carNumber = Integer.parseInt(tmp[1]);            
+            int time = tmp[2].equals("IN") ? -1 : 1;
             
-            if(tmp[2].equals("IN")){
-                parkingMap.put(carNumber, totalMinutes);
-            }
-            else {
-                int times = totalMinutes - parkingMap.get(carNumber);
-                timeMap.put(carNumber, timeMap.getOrDefault(carNumber,0)+times);
-                parkingMap.remove(carNumber);
-            }
+            time *= convertToTotalTime(tmp[0]);
+            times.put(carNumber, times.getOrDefault(carNumber,0)+time);
         }
-        for(int carNumber : parkingMap.keySet()){
-            int times = convertToTotalTime("23:59") - parkingMap.get(carNumber);
-            timeMap.put(carNumber, timeMap.getOrDefault(carNumber,0)+times);
-        }
-        int[] answer = new int[timeMap.size()];
         
+        int[] answer = new int[times.size()];
         int i=0;
-        for(int carNumber : timeMap.keySet()){
-            int time = timeMap.get(carNumber);
+        
+        for(int carNumber : times.keySet()){
+            int time = times.get(carNumber);
+            if(time < 1){
+                time+=convertToTotalTime("23:59");
+            }
             int fee = df;
             int extraTime = time-dt;
             if(extraTime>0){
@@ -37,9 +30,9 @@ class Solution {
             }
             answer[i++] = fee;
         }
-        
         return answer;
     }
+    
     private int convertToTotalTime(String stringTime){
         String[] times = stringTime.split(":");
         return Integer.parseInt(times[0])*60 + Integer.parseInt(times[1]);
