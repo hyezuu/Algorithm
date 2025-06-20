@@ -1,15 +1,16 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
   static int N, K, R;
   static int[][] cows;
-  static List<int[]>[][] rows;
+  static Set<Road>[][] roads;
+  static int[] parent;
   static int[] dy = {0, 1, 0, -1};
   static int[] dx = {1, 0, -1, 0};
 
@@ -22,11 +23,11 @@ public class Main {
     K = Integer.parseInt(st.nextToken());
     R = Integer.parseInt(st.nextToken());
 
-    rows = new List[N][N];
+    roads = new Set[N][N];
 
     for(int i=0; i<N; i++){
       for(int j=0; j<N; j++){
-        rows[i][j] = new LinkedList<>();
+        roads[i][j] = new HashSet<>();
       }
     }
 
@@ -37,8 +38,8 @@ public class Main {
       int r2 = Integer.parseInt(st.nextToken())-1;
       int c2 = Integer.parseInt(st.nextToken())-1;
 
-      rows[r][c].add(new int[]{r2, c2});
-      rows[r2][c2].add(new int[]{r, c});
+      roads[r][c].add(new Road(r2, c2));
+      roads[r2][c2].add(new Road(r, c));
     }
 
     cows = new int[K][2];
@@ -55,47 +56,77 @@ public class Main {
   }
 
   static int solve(){
-    int pair = 0;
+    parent = new int[N*N];
+    for(int i=0; i<N*N; i++){
+      parent[i] = i;
+    }
+    
+    for(int y=0; y<N; y++){
+      for(int x=0; x<N; x++){
+        for(int dir = 0; dir<4; dir++){
+          int ny = y+dy[dir];
+          int nx = x+dx[dir];
+          
+          if(ny < 0 || ny >= N || nx < 0 || nx >= N) continue;
+          if(roads[y][x].contains(new Road(ny, nx))) continue;
+          
+          union(getIndex(y, x), getIndex(ny, nx));
+        }
+      }
+    }
+    
+    int distPairs = 0;
+    
     for(int i=0; i<K; i++){
       for(int j=i+1; j<K; j++){
-        if(!canMeet(i, j)) pair++;
+        int pos1 = getIndex(cows[i][0], cows[i][1]);
+        int pos2 = getIndex(cows[j][0], cows[j][1]);
+        
+        if(find(pos1) != find(pos2)){
+          distPairs++;
+        }
       }
     }
-    return pair;
+    return distPairs;
+  }
+  static void union(int x, int y){
+    int rootX = find(x);
+    int rootY = find(y);
+    parent[rootY] = rootX;
   }
 
-  static boolean canMeet(int i, int j){
-    int[] from = cows[i];
-    int[] to = cows[j];
-
-    Queue<int[]> q = new LinkedList<>();
-    q.offer(cows[i]);
-    boolean[][] visited = new boolean[N][N];
-    visited[from[0]][from[1]] = true;
-
-    while(!q.isEmpty()){
-      int[] now = q.poll();
-      int y = now[0];
-      int x = now[1];
-
-      for(int k=0; k<4; k++){
-        int ny = y+dy[k];
-        int nx = x+dx[k];
-        boolean isRoad = false;
-
-        if(ny<0 || ny>=N || nx<0 || nx>=N || visited[ny][nx]) continue;
-        for(int[] row : rows[y][x]){
-          if(ny == row[0] && nx == row[1]){
-            isRoad = true;
-            break;
-          }
-        }
-        if(isRoad) continue;
-        if(ny == to[0] && nx == to[1]) return true;
-        q.offer(new int[]{ny, nx});
-        visited[ny][nx] = true;
-      }
+  static int find(int x){
+    if(parent[x] != x){
+      parent[x] = find(parent[x]);
     }
-    return false;
+    return parent[x];
+  }
+  
+  static int getIndex(int y, int x){
+    return y*N+x;
+  }
+
+  static class Road{
+    int y;
+    int x;
+
+    Road(int y, int x){
+      this.y = y;
+      this.x = x;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (o == null || Road.class != o.getClass()) {
+        return false;
+      }
+      Road road = (Road) o;
+      return y == road.y && x == road.x;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(y, x);
+    }
   }
 }
