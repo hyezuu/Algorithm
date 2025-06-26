@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 public class Main {
   static int N;
   static int[] line;
+  static int[] lis;
+  static int len = 0;
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,24 +20,30 @@ public class Main {
   }
 
   static int solve(){
-    //i번째 인덱스까지 고려했을때 증가하는 최대 수열의 길이
-    int[] dp = new int[N];
-    
+    lis = new int[N];
+    len = 0;
     for(int i=0; i<N; i++){
-      dp[i] = 1;
-      for(int j=0; j<i; j++){
-        if(line[j] < line[i]){
-          dp[i] = Math.max(dp[i], dp[j]+1);
-        }
+      int pos = lowerBound(line[i]);
+      lis[pos] = line[i];
+
+      if(pos == len) len++;
+    }
+    return N - len;
+  }
+  //target 이상인 첫 번째 위치 찾기
+  static int lowerBound(int target){
+    int left = 0;
+    int right = len;
+
+    while(left < right){
+      int mid = (left + right) / 2;
+
+      if(lis[mid] < target){
+        left = mid + 1;  // target보다 작으면 오른쪽으로
+      } else {
+        right = mid;     // target 이상이면 현재 위치가 후보
       }
     }
-
-    int max = 0;
-
-    for(int i=0; i<N; i++){
-      max = Math.max(max, dp[i]);
-    }
-
-    return N-max;
+    return left;
   }
 }
