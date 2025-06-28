@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,69 +8,63 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
-
-  static List<List<int[]>> graph;
   static int V, E, K;
+  static List<int[]>[] graph;
+  static final String INF = "INF";
+  static final String NEW_LINE = "\n";
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
-
     V = Integer.parseInt(st.nextToken());
     E = Integer.parseInt(st.nextToken());
 
-    K = Integer.parseInt(br.readLine());
+    K = Integer.parseInt(br.readLine())-1;
 
-    graph = new ArrayList<>();
+    graph = new List[V];
 
-    for (int i = 0; i <= V; i++) {
-      graph.add(new ArrayList<>());
+    for(int i=0; i<V; i++){
+      graph[i] = new ArrayList<>();
     }
 
-    for (int i = 0; i < E; i++) {
+    for(int i=0; i<E; i++){
       st = new StringTokenizer(br.readLine());
+      int from = Integer.parseInt(st.nextToken())-1;
+      int to = Integer.parseInt(st.nextToken())-1;
+      int cost = Integer.parseInt(st.nextToken());
 
-      int from = Integer.parseInt(st.nextToken());
-      int to = Integer.parseInt(st.nextToken());
-      int value = Integer.parseInt(st.nextToken());
-
-      graph.get(from).add(new int[]{to, value});
+      graph[from].add(new int[]{to, cost});
     }
 
-    int[] result = dijkstra();
-    for(int i=1; i<result.length; i++){
-      int dist = result[i];
-      System.out.println(dist == Integer.MAX_VALUE ? "INF" : dist);
+    StringBuilder sb = new StringBuilder();
+
+    for(int d : dijkstra()){
+      sb.append(d == Integer.MAX_VALUE ? INF : d).append(NEW_LINE);
     }
+
+    System.out.println(sb);
   }
 
-  static int[] dijkstra () {
+  static int[] dijkstra(){
     PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-    int[] dist = new int[V+1];
-    boolean[] visit = new boolean[V+1];
-    int cnt = 0;
-
+    int[] dist = new int[V];
+//    boolean[] visited = new boolean[V];
     Arrays.fill(dist, Integer.MAX_VALUE);
     dist[K] = 0;
     pq.offer(new int[]{K, 0});
 
-    while (!pq.isEmpty()) {
-      //확정할 수 있는 노드가 나온다.
-      int[] node = pq.poll();
-      int current = node[0];
-      int cost = node[1];
-      if(visit[current]) continue;
-      visit[current] = true;
-      if(++cnt == V) break;
-      
+    while(!pq.isEmpty()){
+      int[] current = pq.poll();
+      int vertex = current[0];
+      int cost = current[1];
 
-      for (int[] next : graph.get(current)) {
-        int nextNode = next[0];
-        int nextCost = next[1];
-        
-       if(!visit[nextNode] && cost + nextCost < dist[nextNode]){
-          dist[nextNode] = cost + nextCost;
-          pq.offer(new int[]{nextNode, cost + nextCost});
+      for(int[] next : graph[vertex]){
+        int nextVertex = next[0];
+        int nextCost = cost + next[1];
+
+        if(nextCost < dist[nextVertex]){
+          dist[nextVertex] = nextCost;
+          pq.offer(new int[]{nextVertex, nextCost});
         }
       }
     }
