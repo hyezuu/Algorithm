@@ -48,7 +48,7 @@ public class Main {
   static int[] dijkstra(){
     PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
     int[] dist = new int[V];
-//    boolean[] visited = new boolean[V];
+    boolean[] visited = new boolean[V];
     Arrays.fill(dist, Integer.MAX_VALUE);
     dist[K] = 0;
     pq.offer(new int[]{K, 0});
@@ -57,12 +57,14 @@ public class Main {
       int[] current = pq.poll();
       int vertex = current[0];
       int cost = current[1];
+      if(visited[vertex]) continue;
+      visited[vertex] = true;
 
       for(int[] next : graph[vertex]){
         int nextVertex = next[0];
         int nextCost = cost + next[1];
 
-        if(nextCost < dist[nextVertex]){
+        if(!visited[nextVertex] && nextCost < dist[nextVertex]){
           dist[nextVertex] = nextCost;
           pq.offer(new int[]{nextVertex, nextCost});
         }
