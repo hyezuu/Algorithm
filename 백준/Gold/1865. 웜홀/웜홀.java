@@ -46,13 +46,13 @@ public class Main {
       }
       sb.append(bellmanFord() ? YES: NO);
     }
-    System.out.println(sb);
+    System.out.print(sb);
   }
   static boolean bellmanFord() {
     int[] dist = new int[N+1];
     Arrays.fill(dist, INF);
     dist[1] = 0;
-    boolean isUpdated = false;
+    boolean isUpdated;
 
     for(int i=1; i<=N; i++) {
       isUpdated = false;
