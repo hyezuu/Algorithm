@@ -1,8 +1,11 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -52,35 +55,49 @@ public class Main {
   static void solve() {
     boolean hasMinusCycle = false;
     for(int i=1; i<=N; i++) {
-      if(bellmanFord(i)){
+      if(spfa(i)){
         hasMinusCycle = true;
         break;
       }
     }
     sb.append(hasMinusCycle ? YES: NO);
   }
-  static boolean bellmanFord(int start) {
-    int[] dist = new int[N+1];
-    Arrays.fill(dist, Integer.MAX_VALUE);
+  public static boolean spfa(int start) {
+    int[] dist = new int[N + 1];
+    boolean[] inQueue = new boolean[N + 1];
+    int[] count = new int[N + 1];  // 각 정점이 큐에 들어간 횟수
+
+    Arrays.fill(dist, INF);
+    Queue<Integer> queue = new LinkedList<>();
+
     dist[start] = 0;
+    queue.offer(start);
+    inQueue[start] = true;
+    count[start] = 1;
 
-    boolean isUpdated = false;
-    for(int i=1; i<=N; i++) {
-      isUpdated = false;
-      for(int j=1; j<=N; j++) {
-        for(int[] edge: graph[j]) {
-          int e = edge[0];
-          int t = edge[1];
+    while (!queue.isEmpty()) {
+      int current = queue.poll();
+      inQueue[current] = false;
 
-          if(dist[j] == INF) continue;
-          if(dist[e] > dist[j] + t) {
-            dist[e] = dist[j] + t;
-            isUpdated = true;
-            if(i==N) return true;
+      for (int[] edge : graph[current]) {
+        int next = edge[0];  // 도착점
+        int weight = edge[1];  // 가중치
+
+        if (dist[next] > dist[current] + weight) {
+          dist[next] = dist[current] + weight;
+
+          if (!inQueue[next]) {
+            queue.offer(next);
+            inQueue[next] = true;
+            count[next]++;
+
+            // 음의 사이클 체크: 한 정점이 N번 이상 큐에 들어가면 음의 사이클
+            if (count[next] >= N) {
+              return true;
+            }
           }
         }
       }
-      if(!isUpdated) break;
     }
     return false;
   }
