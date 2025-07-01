@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -43,15 +42,16 @@ public class Main {
       graph[to].add(new Edge(from, cost));
     }
 
-    System.out.println(dijkstra());
+    System.out.print(dijkstra());
   }
 
   static int dijkstra(){
     int[][] dist = new int[n+1][n+1];
-
+    int max = Integer.MIN_VALUE;
     for(int i=1; i<=n; i++){
       Arrays.fill(dist[i], Integer.MAX_VALUE);
       dist[i][i] = 0;
+      int sum = 0;
 
       PriorityQueue<Edge> pq = new PriorityQueue<>();
       pq.offer(new Edge(i, 0));
@@ -62,6 +62,7 @@ public class Main {
         int currentNode = current.to;
 
         if(dist[i][currentNode] < currentCost) continue;
+        sum += items[currentNode];
 
         for(Edge next: graph[currentNode]){
           int nextNode = next.to;
@@ -73,19 +74,8 @@ public class Main {
           }
         }
       }
+      max = Math.max(max, sum);
     }
-
-    int max = Integer.MIN_VALUE;
-
-    for(int i=1; i<=n; i++){
-      int sum = 0;
-      for(int j=1; j<=n; j++){
-        if(dist[i][j] > m) continue;
-        sum += items[j];
-      }
-      max = Math.max(sum, max);
-    }
-
     return max;
   }
 
