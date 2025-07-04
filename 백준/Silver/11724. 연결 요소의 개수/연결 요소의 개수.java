@@ -1,14 +1,15 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
 
   static int N, M;
-  static List<Integer>[] graph;
-  static boolean[] visited;
+  static int[] parent;
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,10 +18,10 @@ public class Main {
     N = Integer.parseInt(st.nextToken());
     M = Integer.parseInt(st.nextToken());
 
-    graph = new List[N];
+    parent = new int[N];
 
     for(int i = 0; i < N; i++){
-      graph[i] = new ArrayList<>();
+      parent[i] = i;
     }
 
     for(int i = 0; i< M; i++){
@@ -28,33 +29,35 @@ public class Main {
       int a = Integer.parseInt(st.nextToken()) - 1;
       int b = Integer.parseInt(st.nextToken()) - 1;
 
-      graph[a].add(b);
-      graph[b].add(a);
+      union(a, b);
     }
 
     System.out.print(solve());
   }
 
   static int solve(){
-    int cnt = 0;
-    visited = new boolean[N];
+    Set<Integer> set = new HashSet<>();
+
     for(int i = 0; i < N; i++){
-      if(!visited[i]){
-        dfs(i);
-        cnt++;
-      }
+      set.add(find(i));
     }
-    return cnt;
+
+    return set.size();
   }
 
-  static void dfs(int node){
-    visited[node] = true;
+  static void union(int a, int b){
+    int parentA = find(a);
+    int parentB = find(b);
 
-    for(int next: graph[node]){
-      if(!visited[next]){
-        dfs(next);
-      }
+    if(parentA < parentB){
+      parent[parentB] = parentA;
+      return;
     }
+    parent[parentA] = parentB;
   }
 
+  static int find(int x){
+    if(parent[x] == x) return x;
+    return parent[x] = find(parent[x]);
+  }
 }
