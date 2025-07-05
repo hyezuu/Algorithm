@@ -9,7 +9,7 @@ public class Main {
   static List<Node>[] graph;
   static boolean[] visited;
   static int farthestNode;
-  static int max = 0;
+  static int max;
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -35,6 +35,7 @@ public class Main {
 
   static int solve() {
     visited = new boolean[N+1];
+    max = 0;
     dfs(1, 0);
 
     visited = new boolean[N+1];
