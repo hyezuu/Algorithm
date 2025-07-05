@@ -7,7 +7,8 @@ import java.util.StringTokenizer;
 public class Main {
   static int N;
   static List<Node>[] graph;
-  static int farthest;
+  static boolean[] visited;
+  static int farthestNode;
   static int max = 0;
 
   public static void main(String[] args) throws Exception {
@@ -33,20 +34,25 @@ public class Main {
   }
 
   static int solve() {
-    dfs(1, 0, 0);
-    dfs(farthest, 0, 0);
+    visited = new boolean[N+1];
+    dfs(1, 0);
+
+    visited = new boolean[N+1];
+    dfs(farthestNode, 0);
     return max;
   }
 
-  static void dfs(int vertex, int distance, int parent){
+  static void dfs(int vertex, int distance){
+    visited[vertex] = true;
+
     for(Node child: graph[vertex]){
-      if(child.vertex == parent) continue;
+      if(visited[child.vertex]) continue;
       int nextDistance = child.distance + distance;
       if(nextDistance > max){
-        farthest = child.vertex;
+        farthestNode = child.vertex;
         max = nextDistance;
       }
-      dfs(child.vertex, nextDistance, vertex);
+      dfs(child.vertex, nextDistance);
     }
   }
 
