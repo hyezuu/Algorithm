@@ -17,6 +17,6 @@ public class Main {
       max = Math.max(max, cur);
     }
 
-    System.out.print(min + " " + max);
+    System.out.print(new StringBuilder().append(min).append(" ").append(max));
   }
 }
