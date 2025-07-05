@@ -14,10 +14,10 @@ public class Main {
       StringTokenizer st = new StringTokenizer(br.readLine());
 
       int n = Integer.parseInt(st.nextToken());
-      char[] arr = st.nextToken().toCharArray();
+      String s = st.nextToken();
 
-      for(char c : arr){
-        sb.append(String.valueOf(c).repeat(Math.max(0, n)));
+      for(int i=0; i<s.length(); i++){
+        sb.append(String.valueOf(s.charAt(i)).repeat(Math.max(0, n)));
       }
       sb.append("\n");
     }
