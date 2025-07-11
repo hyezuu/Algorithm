@@ -30,7 +30,7 @@ public class Main {
   }
 
   static int solve(){
-    final int INF = Integer.MAX_VALUE>>1;
+    final int INF = Integer.MAX_VALUE;
 
     //i명을 확보하기위한 최소 비용
     int[] dp = new int[C+1];
