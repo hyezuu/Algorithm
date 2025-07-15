@@ -18,13 +18,13 @@ public class Main {
       parent[i] = i;
     }
 
-    for(int i = 1; i <= M; i++){
+    for(int i = 0; i < M; i++){
       st = new StringTokenizer(br.readLine());
       int a = Integer.parseInt(st.nextToken());
       int b = Integer.parseInt(st.nextToken());
 
       if(find(a) == find(b)){
-        System.out.print(i);
+        System.out.print(i+1);
         return;
       }
       else union(a, b);
