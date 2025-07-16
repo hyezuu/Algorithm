@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 public class Main {
   static Map<Integer, Integer> map = new HashMap<>();
   static int[] scores;
+  static int max = 0;
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,7 +17,10 @@ public class Main {
 
     StringTokenizer st = new StringTokenizer(br.readLine());
     for(int i=0; i<N; i++){
-      map.put(Integer.parseInt(st.nextToken()), i);
+      int num = Integer.parseInt(st.nextToken());
+      map.put(num, i);
+
+      if(num > max) max = num;
     }
 
     solve();
@@ -30,7 +34,6 @@ public class Main {
   }
 
   static void solve(){
-    final int max = 1_000_000;
     for(int cur : map.keySet()){
       int multiplier = 2;
       while(cur * multiplier <= max){
