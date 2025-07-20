@@ -11,7 +11,7 @@ public class Main {
 
     StringBuilder[] members = new StringBuilder[201];
 
-    for(int i = 0; i < 201; i++) {
+    for (int i = 0; i < 201; i++) {
       members[i] = new StringBuilder();
     }
 
@@ -28,10 +28,8 @@ public class Main {
 
     StringBuilder sb = new StringBuilder();
 
-    for(StringBuilder s : members) {
-      if(s.length() > 0) {
-        sb.append(s);
-      }
+    for (StringBuilder s : members) {
+      sb.append(s);
     }
 
     System.out.print(sb);
