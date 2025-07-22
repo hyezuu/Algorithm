@@ -13,7 +13,7 @@ public class Main {
 
     N = Integer.parseInt(st.nextToken());
     M = Integer.parseInt(st.nextToken());
-    
+
     patterns = new long[N];
 
     for(int i=0; i<N; i++) {
@@ -27,16 +27,20 @@ public class Main {
   }
 
   static int solve() {
+    boolean[] processed = new boolean[N];
     int maxRows = 0;
 
     for (int i = 0; i < N; i++) {
+      if(processed[i]) continue;
+      processed[i] = true;
       long pattern = patterns[i];
       int needed = M - Long.bitCount(pattern);
 
       if (needed <= K && (K - needed) % 2 == 0) {
         int count = 0;
-        for (int j = 0; j < N; j++) {
+        for (int j = i; j < N; j++) {
           if (patterns[i] == patterns[j]) {
+            processed[j] = true;
             count++;
           }
         }
