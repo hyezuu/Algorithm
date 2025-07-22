@@ -1,13 +1,11 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Main {
 
   static int N, M, K;
-  static Map<Long, Integer> patterns = new HashMap<>();
+  static long[] patterns;
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,10 +13,11 @@ public class Main {
 
     N = Integer.parseInt(st.nextToken());
     M = Integer.parseInt(st.nextToken());
+    
+    patterns = new long[N];
 
     for(int i=0; i<N; i++) {
-      Long pattern = Long.parseLong(br.readLine(), 2);
-      patterns.compute(pattern, (k, v) -> v == null ? 1 : v + 1);
+      patterns[i] = Long.parseLong(br.readLine(), 2);
     }
 
     K = Integer.parseInt(br.readLine());
@@ -30,11 +29,17 @@ public class Main {
   static int solve() {
     int maxRows = 0;
 
-    for (Long pattern : patterns.keySet()){
-      int count = patterns.get(pattern);
+    for (int i = 0; i < N; i++) {
+      long pattern = patterns[i];
       int needed = M - Long.bitCount(pattern);
 
-      if(needed <= K && (K - needed) %  2 == 0){
+      if (needed <= K && (K - needed) % 2 == 0) {
+        int count = 0;
+        for (int j = 0; j < N; j++) {
+          if (patterns[i] == patterns[j]) {
+            count++;
+          }
+        }
         maxRows = Math.max(maxRows, count);
       }
     }
