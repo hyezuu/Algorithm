@@ -28,7 +28,8 @@ public class Main {
     long sum = 0;
 
     for (int i = 0; i < N; i++) {
-      sum += ((long) point[i][0] * point[(i + 1) % N][1]) - (long) point[i][1] * point[(i + 1) % N][0];
+      sum += (long) point[i][0] * point[(i + 1) % N][1];
+      sum -= (long) point[i][1] * point[(i + 1) % N][0];
     }
 
     return Math.abs(sum) / 2.0;
