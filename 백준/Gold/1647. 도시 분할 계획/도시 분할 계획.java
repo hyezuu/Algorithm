@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -39,17 +36,19 @@ public class Main {
   }
 
   static int solve() {
-    int maxCost = 0;
+    int size = 0;
     int answer = 0;
     while(!pq.isEmpty()) {
+      if(size >= N - 2) break;
+      
       Road road = pq.poll();
       if(union(road.from, road.to)) {
         answer += road.cost;
-        maxCost = road.cost;
+        size++;
       }
     }
 
-    return answer - maxCost;
+    return answer;
   }
 
   static int find(int x){
@@ -62,7 +61,12 @@ public class Main {
     y = find(y);
 
     if(x == y) return false;
-    parent[x] = y;
+    if(x < y){
+      parent[y] = x;
+    }
+    else {
+      parent[x] = y;
+    }
     return true;
   }
 
