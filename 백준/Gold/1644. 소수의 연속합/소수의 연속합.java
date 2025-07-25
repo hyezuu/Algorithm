@@ -5,7 +5,6 @@ public class Main {
   static int N;
   static boolean[] notPrimes;
 
-
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     N = Integer.parseInt(br.readLine());
@@ -45,7 +44,9 @@ public class Main {
     return cnt;
   }
   private static int getPrime(int num) {
-    while (num <= N && notPrimes[++num]){}
+    while (num <= N){
+      if(!notPrimes[++num]) break;
+    }
     return num;
   }
 }
