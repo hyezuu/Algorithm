@@ -1,68 +1,80 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
-  static int N, M, K;
-  static char[][] chars;
-  static String target;
-  static int[] dx = {-1, 0, 1, 0};
-  static int[] dy = {0, -1, 0, 1};
-  static int[][][] dp;
+   static int N, M, K;
+   static char[][] chars;
+   static String target;
+   static int[] dx = {-1, 0, 1, 0};
+   static int[] dy = {0, -1, 0, 1};
+   static Integer[][][] dp; // int -> Integer로 변경 (null 체크 가능)
 
-  public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    StringTokenizer st = new StringTokenizer(br.readLine());
+   public static void main(String[] args) throws Exception {
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+       StringTokenizer st = new StringTokenizer(br.readLine());
 
-    N = Integer.parseInt(st.nextToken());
-    M = Integer.parseInt(st.nextToken());
-    K = Integer.parseInt(st.nextToken());
-    chars = new char[N][M];
+       N = Integer.parseInt(st.nextToken());
+       M = Integer.parseInt(st.nextToken());
+       K = Integer.parseInt(st.nextToken());
+       chars = new char[N][M];
 
-    for (int i = 0; i < N; i++) {
-      chars[i] = br.readLine().toCharArray();
-    }
+       for (int i = 0; i < N; i++) {
+           chars[i] = br.readLine().toCharArray();
+       }
 
-    target = br.readLine();
+       target = br.readLine();
+       solve();
+   }
 
-    dp = new int[N][M][target.length()];
+   static void solve() {
+       dp = new Integer[N][M][target.length()];
+       
+       char firstChar = target.charAt(0);
+       for (int i = 0; i < N; i++) {
+           for (int j = 0; j < M; j++) {
+               if (chars[i][j] == firstChar) {
+                   dp[i][j][0] = 1;
+               } else {
+                   dp[i][j][0] = 0;
+               }
+           }
+       }
 
-    for(int i=0; i<N; i++){
-      for(int j=0; j<M; j++){
-        Arrays.fill(dp[i][j], -1);
-      }
-    }
+       int cnt = 0;
+       for (int i = 0; i < N; i++) {
+           for (int j = 0; j < M; j++) {
+               cnt += dfs(i, j, target.length() - 1);
+           }
+       }
+       System.out.print(cnt);
+   }
 
-    solve();
-  }
+   static int dfs(int y, int x, int idx) {
+       if (dp[y][x][idx] != null) {
+           return dp[y][x][idx];
+       }
 
-  static void solve(){
-    int cnt = 0;
-    for(int i=0; i<N; i++){
-      for(int j=0; j<M; j++){
-        cnt+=dfs(i, j, 0);
-      }
-    }
-    System.out.print(cnt);
-  }
+       dp[y][x][idx] = 0;
 
-  static int dfs(int y, int x, int idx){
-    if(target.charAt(idx) != chars[y][x]) return 0;
-    if(idx == target.length()-1) return 1;
-    if(dp[y][x][idx] != -1) return dp[y][x][idx];
+       if (target.charAt(idx) == chars[y][x]) {
+           if (idx == 0) {
+               dp[y][x][idx] = 1;
+           } else {
+               for (int i = 0; i < 4; i++) {
+                   for (int j = 1; j <= K; j++) {
+                       int ny = y + dy[i] * j;
+                       int nx = x + dx[i] * j;
+ 
+                       if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
+                           dp[y][x][idx] += dfs(ny, nx, idx - 1);
+                       }
+                   }
+               }
+           }
+       }
 
-    dp[y][x][idx] = 0;
-
-    for(int i=0; i<4; i++){
-      for(int j=1; j<=K; j++){
-        int ny = y + dy[i] * j;
-        int nx = x + dx[i] * j;
-        if(ny < 0 || ny >= N || nx < 0 || nx >= M) continue;
-        dp[y][x][idx] += dfs(ny, nx, idx+1);
-      }
-    }
-    return dp[y][x][idx];
-  }
+       return dp[y][x][idx];
+   }
 }
