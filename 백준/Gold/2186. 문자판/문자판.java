@@ -59,9 +59,7 @@ public class Main {
        dp[y][x][idx] = 0;
 
        if (target.charAt(idx) == chars[y][x]) {
-           if (idx == 0) {
-               dp[y][x][idx] = 1;
-           } else {
+           
                for (int i = 0; i < 4; i++) {
                    for (int j = 1; j <= K; j++) {
                        int ny = y + dy[i] * j;
@@ -71,7 +69,7 @@ public class Main {
                            dp[y][x][idx] += dfs(ny, nx, idx - 1);
                        }
                    }
-               }
+               
            }
        }
 
