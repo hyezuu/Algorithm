@@ -1,67 +1,58 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+  private static BufferedWriter bw;
 
-  static int N;
-  static Problem[] problems;
+  private static PriorityQueue<Task> pqTemp;
+  private static PriorityQueue<Integer> pq;
+  private static Task cur;
+  private static int n, ans;
 
-  //4
-  //1 50
-  //2 30
-  //3 60
-  //3 70
-
-  public static void main(String[] args) throws Exception {
+  public static void main(String... args) throws IOException {
+    bw = new BufferedWriter(new OutputStreamWriter(System.out));
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    N = Integer.parseInt(st.nextToken());
-    problems = new Problem[N];
+    pqTemp = new PriorityQueue<>();
+    pq = new PriorityQueue<>();
 
-    for (int i = 0; i < N; i++) {
-      st = new StringTokenizer(br.readLine());
-      int deadLine = Integer.parseInt(st.nextToken());
-      int reward = Integer.parseInt(st.nextToken());
-
-      problems[i] = new Problem(deadLine, reward);
+    n = Integer.parseInt(br.readLine());
+    for (int i = 0; i < n; i++) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      int deadline = Integer.parseInt(st.nextToken());
+      int reword = Integer.parseInt(st.nextToken());
+      pqTemp.offer(new Task(deadline, reword));
     }
 
-    System.out.print(solve());
-    br.close();
+    ans = 0;
+
+    while (!pqTemp.isEmpty()) {
+      cur = pqTemp.poll();
+
+      pq.offer(cur.reword);
+
+      if (cur.deadline < pq.size()) pq.poll();
+    }
+
+    while (!pq.isEmpty()) ans += pq.poll();
+
+    bw.write(ans+"");
+    bw.flush();
   }
 
-  static Long solve() {
-    Arrays.sort(problems, Comparator.comparingInt(p -> p.deadLine));
-    PriorityQueue<Problem> pq = new PriorityQueue<>(Comparator.comparingInt(p -> p.reward));
+  static class Task implements Comparable<Task> {
+    final int deadline, reword;
 
-    for (Problem problem : problems) {
-      pq.offer(problem);
-      if (problem.deadLine < pq.size()) {
-        pq.poll();
-      }
-    }
-    long sum = 0;
-
-    while (!pq.isEmpty()) {
-      sum += pq.poll().reward;
+    public Task(int deadline, int reword) {
+      this.deadline = deadline;
+      this.reword = reword;
     }
 
-    return sum;
-  }
+    @Override
+    public int compareTo(Task o) {
+      if (this.deadline == o.deadline) return o.reword - this.reword;
 
-  static class Problem {
-
-    int deadLine;
-    int reward;
-
-    public Problem(int deadLine, int reward) {
-      this.deadLine = deadLine;
-      this.reward = reward;
+      return this.deadline - o.deadline;
     }
   }
 }
