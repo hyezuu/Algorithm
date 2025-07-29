@@ -1,58 +1,68 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
-  private static BufferedWriter bw;
 
-  private static PriorityQueue<Task> pqTemp;
-  private static PriorityQueue<Integer> pq;
-  private static Task cur;
-  private static int n, ans;
+  static int N;
+  static PriorityQueue<Problem> problems;
 
-  public static void main(String... args) throws IOException {
-    bw = new BufferedWriter(new OutputStreamWriter(System.out));
+  public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    pqTemp = new PriorityQueue<>();
-    pq = new PriorityQueue<>();
+    N = Integer.parseInt(st.nextToken());
+    problems = new PriorityQueue<>();
 
-    n = Integer.parseInt(br.readLine());
-    for (int i = 0; i < n; i++) {
-      StringTokenizer st = new StringTokenizer(br.readLine());
-      int deadline = Integer.parseInt(st.nextToken());
-      int reword = Integer.parseInt(st.nextToken());
-      pqTemp.offer(new Task(deadline, reword));
+    for (int i = 0; i < N; i++) {
+      st = new StringTokenizer(br.readLine());
+      int deadLine = Integer.parseInt(st.nextToken());
+      int reward = Integer.parseInt(st.nextToken());
+
+      problems.offer(new Problem(deadLine, reward));
     }
 
-    ans = 0;
-
-    while (!pqTemp.isEmpty()) {
-      cur = pqTemp.poll();
-
-      pq.offer(cur.reword);
-
-      if (cur.deadline < pq.size()) pq.poll();
-    }
-
-    while (!pq.isEmpty()) ans += pq.poll();
-
-    bw.write(ans+"");
-    bw.flush();
+    System.out.print(solve());
+    br.close();
   }
 
-  static class Task implements Comparable<Task> {
-    final int deadline, reword;
+  static Long solve() {
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-    public Task(int deadline, int reword) {
-      this.deadline = deadline;
-      this.reword = reword;
+    while (!problems.isEmpty()) {
+      Problem problem = problems.poll();
+      pq.offer(problem.reward);
+      if (problem.deadLine < pq.size()) {
+        pq.poll();
+      }
+    }
+
+    long sum = 0;
+
+    while (!pq.isEmpty()) {
+      sum += pq.poll();
+    }
+
+    return sum;
+  }
+
+  static class Problem implements Comparable<Problem> {
+
+    int deadLine;
+    int reward;
+
+    public Problem(int deadLine, int reward) {
+      this.deadLine = deadLine;
+      this.reward = reward;
     }
 
     @Override
-    public int compareTo(Task o) {
-      if (this.deadline == o.deadline) return o.reword - this.reword;
-
-      return this.deadline - o.deadline;
+    public int compareTo(Problem o) {
+      if(this.deadLine == o.deadLine) {
+        return this.reward - o.reward;
+      }
+      return this.deadLine - o.deadLine;
     }
   }
 }
