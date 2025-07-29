@@ -51,7 +51,7 @@ public class Main {
       for(int j = 0; j < N; j++) {
         sb.append(routes[i][j] >= INF ? 0 : routes[i][j]).append(" ");
       }
-      sb.delete(sb.length()-1, sb.length()).append("\n");
+      sb.append("\n");
     }
 
     return sb.toString();
