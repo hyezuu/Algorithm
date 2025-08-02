@@ -1,30 +1,28 @@
 import java.util.*;
 
 class Solution {
-    static Set<Set<String>> result = new HashSet<>();
+    static Set<Integer> result = new HashSet<>();
     static String[] bannedIds;
     static String[] userIds;
     
     public int solution(String[] userIds, String[] bannedIds) {
         this.bannedIds = bannedIds;
         this.userIds = userIds;
-        dfs(0, new HashSet<>());
+        dfs(0, 0);
         return result.size();
     }
 
-    private void dfs(int bannedIdx, Set<String> selected) {
+    private void dfs(int bannedIdx, int bit) {
         if (bannedIdx == bannedIds.length) {
-            result.add(new HashSet<>(selected));
+            result.add(bit);
             return;
         }
 
         for (int i = 0; i < userIds.length; i++) {
-            if (selected.contains(userIds[i])) continue;
+            if ((bit & (1 << i)) != 0) continue;
             if (!checkFormat(bannedIds[bannedIdx], userIds[i])) continue;
 
-            selected.add(userIds[i]);
-            dfs(bannedIdx + 1, selected);
-            selected.remove(userIds[i]);
+            dfs(bannedIdx + 1, bit | (1 << i));
         }
     }
 
