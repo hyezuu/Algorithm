@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 public class Main {
   static int N, M;
   static List<Road>[] roads;
+  static long[][] dists; // [0]=늑대홀수, [1]=늑대짝수, [2]=여우
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -37,79 +38,77 @@ public class Main {
   }
 
   static int solve() {
-    int[] foxDist = dijkstraFox();
-    int[] wolfDist = dijkstraWolf();
+    dists = new long[3][N];
+    
+    for(int i = 0; i < N; i++) {
+      dists[0][i] = Long.MAX_VALUE;
+      dists[1][i] = Long.MAX_VALUE;
+      dists[2][i] = Long.MAX_VALUE;
+    }
+    
+    dijkstraForFox();
+    dijkstraForWolf();
 
     int count = 0;
     for(int i = 1; i < N; i++) {
-      if(foxDist[i] < wolfDist[i]) {
+      long foxTime = dists[2][i];
+      long wolfTime = Math.min(dists[0][i], dists[1][i]);
+      if(foxTime < wolfTime) {
         count++;
       }
     }
     return count;
   }
 
-  static int[] dijkstraFox() {
-    int[] dist = new int[N];
-    Arrays.fill(dist, Integer.MAX_VALUE);
-    dist[0] = 0;
-
-    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-    pq.offer(new int[]{0, 0}); // {노드, 비용}
+  static void dijkstraForFox() {
+    dists[2][0] = 0;
+    
+    PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(a -> a[1]));
+    pq.offer(new long[]{0, 0}); // {노드, 비용}
 
     while(!pq.isEmpty()) {
-      int[] current = pq.poll();
-      int node = current[0];
-      int cost = current[1];
+      long[] current = pq.poll();
+      int node = (int)current[0];
+      long cost = current[1];
 
-      if(cost > dist[node]) continue;
+      if(cost > dists[2][node]) continue;
 
       for(Road road : roads[node]) {
-        int nextCost = cost + road.cost * 2;
+        long nextCost = cost + road.cost * 2;
 
-        if(dist[road.to] > nextCost) {
-          dist[road.to] = nextCost;
-          pq.offer(new int[]{road.to, nextCost});
+        if(dists[2][road.to] > nextCost) {
+          dists[2][road.to] = nextCost;
+          pq.offer(new long[]{road.to, nextCost});
         }
       }
     }
-    return dist;
   }
 
-  static int[] dijkstraWolf() {
-    int[][] dist = new int[N][2]; // [홀수번째][짝수번째]
-    for(int i = 0; i < N; i++) {
-      Arrays.fill(dist[i], Integer.MAX_VALUE);
-    }
-    dist[0][1] = 0; // 늑대는 홀수번째부터 시작
+  static void dijkstraForWolf() {
+    dists[0][0] = 0; // 늑대는 홀수번째부터 시작
 
-    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-    pq.offer(new int[]{0, 0, 1}); // {노드, 비용, 상태: 1=홀수, 0=짝수}
+    PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(a -> a[1]));
+    pq.offer(new long[]{0, 0, 0}); // {노드, 비용, 상태: 0=홀수, 1=짝수}
 
     while(!pq.isEmpty()) {
-      int[] current = pq.poll();
-      int node = current[0];
-      int cost = current[1];
-      int state = current[2]; // 1=홀수번째, 0=짝수번째
+      long[] current = pq.poll();
+      int node = (int)current[0];
+      long cost = current[1];
+      int state = (int)current[2]; // 0=홀수번째, 1=짝수번째
 
-      if(cost > dist[node][state]) continue;
+      if(cost > dists[state][node]) continue;
 
+      int nextState = 1 - state; // 홀수-짝수 토글
+      
       for(Road road : roads[node]) {
-        int nextCost = cost + (state == 1 ? road.cost : road.cost * 4);
-        int nextState = 1 - state;
+        long nextCost = cost + (long)road.cost * (state == 0 ? 1 : 4);
 
-        if(dist[road.to][nextState] > nextCost) {
-          dist[road.to][nextState] = nextCost;
-          pq.offer(new int[]{road.to, nextCost, nextState});
+        if(dists[nextState][road.to] > nextCost) {
+          dists[nextState][road.to] = nextCost;
+          pq.offer(new long[]{road.to, nextCost, nextState});
         }
       }
     }
-
-    int[] result = new int[N];
-    for(int i = 0; i < N; i++) {
-      result[i] = Math.min(dist[i][0], dist[i][1]);
-    }
-    return result;
   }
 
   static class Road {
