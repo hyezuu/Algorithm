@@ -51,6 +51,11 @@ public class Main {
     }
 
     Arrays.sort(answer);
-    System.out.print(answer[0] + " " + answer[1] + " " + answer[2]);
+    // 문자열 연결 최적화
+    System.out.print(
+        new StringBuilder().append(answer[0]).append(' ')
+            .append(answer[1]).append(' ')
+            .append(answer[2])
+    );
   }
 }
