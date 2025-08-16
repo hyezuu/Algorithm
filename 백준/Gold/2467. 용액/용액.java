@@ -23,7 +23,7 @@ public class Main {
   }
   static void solve() {
     Arrays.sort(solutions);
-    
+
     int lt = 0;
     int rt = N - 1;
 
@@ -42,7 +42,12 @@ public class Main {
       if(sum < 0) lt++;
       if(sum > 0) rt--;
     }
-    System.out.print(leftValue + " " + rightValue);
+    System.out.print(
+        new StringBuilder()
+            .append(leftValue)
+            .append(" ")
+            .append(rightValue)
+    );
   }
 }
 
