@@ -2,18 +2,22 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class Main {
+  static final long MOD = 1234567891L;
+  static final long BASE = 31L;
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int L = Integer.parseInt(br.readLine());
-    String str = br.readLine();
-    br.close();
+    String s = br.readLine();
 
-    long total = 0;
+    long hash = 0;
+    long pow = 1;
 
     for (int i = 0; i < L; i++) {
-      total += (long) (((long) (str.charAt(i) - 'a' + 1)*Math.pow(31, i))%1234567891);
+      long v = s.charAt(i) - 'a' + 1;
+      hash = (hash + (v * pow) % MOD) % MOD;
+      pow = (pow * BASE) % MOD;
     }
-    System.out.print(total%1234567891);
+    System.out.print(hash);
   }
 }
